@@ -3,7 +3,7 @@
   Displays the Graphical User Interface (GUI) and communicates with the robot.
 
   Authors:  Your professors (for the framework)
-    and PUT_YOUR_NAME_HERE.
+    and Derrick Swart.
   Winter term, 2018-2019.
 """
 
@@ -12,7 +12,7 @@ import tkinter
 from tkinter import ttk
 import shared_gui
 
-
+ 
 def main():
     """
     This code, which must run on a LAPTOP:
