@@ -235,7 +235,11 @@ class ArmAndClaw(object):
         Lowers the Arm until it is all the way down, i.e., position 0.
         The robot must have previously calibrated its Arm.
         """
-
+        self.motor.turn_on(-100)
+        while self.motor.get_position()== 0:
+            continue
+        self.motor.turn_off()
+        self.motor.reset_position()
 
 ###############################################################################
 #    SensorSystem
@@ -249,9 +253,9 @@ class SensorSystem(object):
     def __init__(self):
         self.touch_sensor = TouchSensor(1)
         # These need the port numbers
-        self.color_sensor = ColorSensor()
-        self.ir_proximity_sensor = InfraredProximitySensor()
-        self.ir_beacon_sensor = InfraredBeaconSensor()
+        self.color_sensor = ColorSensor(3)
+        self.ir_proximity_sensor = InfraredProximitySensor(4)
+        self.ir_beacon_sensor = InfraredBeaconSensor(2)
 
         # These need some configuration
         # self.beacon_system =
