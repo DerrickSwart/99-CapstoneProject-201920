@@ -238,6 +238,7 @@ class ArmAndClaw(object):
         else:
             self.motor.turn_on(-100)
 
+
         while True:
             position = self.motor.get_position()
             if desired_arm_position +50 > position and desired_arm_position -50 < position:
