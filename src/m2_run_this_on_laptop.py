@@ -22,27 +22,28 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-
-
+    mqqt_sender = com.MqttClient()
+    mqqt_sender.connect_to_ev3()
     # -------------------------------------------------------------------------
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
-
+    root = tkinter.Tk()
+    root.title("FINAL PROJECT ROBOT")
 
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
     # -------------------------------------------------------------------------
-
-
+    main = ttk.Frame(root, relief='groove', borderwidth=5, padding =10)
+    main.grid()
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-
-
+    teleop_frame, arm_frame, control_frame = get_shared_frames(main, mqqt_sender)
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
-    # TODO: Implement and call get_my_frames(...)
+    # : Implement and call get_my_frames(...)
+    grid_frames(teleop_frame, arm_frame, control_frame)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
@@ -52,15 +53,17 @@ def main():
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
-
-
+    root.mainloop()
 
 def get_shared_frames(main_frame, mqtt_sender):
-    pass
-
-
+    teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
+    arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
+    control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
+    return teleop_frame, arm_frame, control_frame
 def grid_frames(teleop_frame, arm_frame, control_frame):
-    pass
+    teleop_frame.grid(row=0,column=0)
+    arm_frame.grid(column=0, row=1)
+    control_frame.grid(column=0, row=2)
 
 
 # -----------------------------------------------------------------------------
