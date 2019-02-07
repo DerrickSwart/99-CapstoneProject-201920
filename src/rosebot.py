@@ -241,7 +241,7 @@ class ArmAndClaw(object):
 
         while True:
             position = self.motor.get_position()
-            if desired_arm_position +50 > position and desired_arm_position -50 < position:
+            if desired_arm_position -position <10 and desired_arm_position -position >-10:
                 break
             if self.touch_sensor.is_pressed():
                 break
