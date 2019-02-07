@@ -225,7 +225,10 @@ class ArmAndClaw(object):
         """
 
         self.motor.get_position()
-        self.motor.turn_on(100)
+        if desired_arm_position > self.motor.get_position():
+            self.motor.turn_on(100)
+        else:
+            self.motor.turn_on(-100)
         while True:
             position = self.motor.get_position()
             if desired_arm_position == position:
