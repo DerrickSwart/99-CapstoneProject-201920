@@ -230,6 +230,8 @@ class ArmAndClaw(object):
             position = self.motor.get_position()
             if desired_arm_position == position:
                 break
+            if self.touch_sensor.is_pressed():
+                break
         self.motor.turn_off()
 
     def lower_arm(self):
