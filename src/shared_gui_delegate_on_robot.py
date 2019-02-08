@@ -25,3 +25,20 @@ class Handler(object):
         print("received backward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(-int(left_wheel_speed),
                                    -int(right_wheel_speed))
+    def left(self, left_wheel_speed, right_wheel_speed):
+        print('recieved left', '-', left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.go(-(int(left_wheel_speed)),
+                                   int(right_wheel_speed))
+    def right(self, left_wheel_speed, right_wheel_speed):
+        print('recieved right', left_wheel_speed, '-', right_wheel_speed)
+        self.robot.drive_system.go(int(left_wheel_speed), -(int(right_wheel_speed)))
+    def raise_arm(self):
+        print('recieved raise arm')
+        self.robot.arm_and_claw.raise_arm()
+    def lower_arm(self):
+        print('recieved lower arm')
+        self.robot.arm_and_claw.lower_arm()
+    def calibrate_arm(self):
+        print('recieved calibrate arm')
+        self.robot.arm_and_claw.calibrate_arm()
+    
