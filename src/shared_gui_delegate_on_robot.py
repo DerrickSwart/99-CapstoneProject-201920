@@ -41,4 +41,3 @@ class Handler(object):
     def calibrate_arm(self):
         print('recieved calibrate arm')
         self.robot.arm_and_claw.calibrate_arm()
-    
