@@ -154,7 +154,7 @@ def get_drive_for_frame(window, mqtt_sender):
 
 
     seconds_box = ttk.Entry(frame, width = 8)
-    seconds_box_label = ttk.Label(frame, text = 'seconds to go' )
+    seconds_box_label = ttk.Label(frame, text = 'Number of Seconds to go forward' )
     seconds_box.grid(row = 2, column = 0)
     second_speed_box = ttk.Entry(frame, width = 8)
     second_speed_box_label = ttk.Label(frame, text = 'at the speed')
@@ -165,7 +165,7 @@ def get_drive_for_frame(window, mqtt_sender):
 
 
     inches_box = ttk.Entry(frame, width = 8)
-    inches_box_label = ttk.Label(frame, text = 'Inches using Time' )
+    inches_box_label = ttk.Label(frame, text = 'Number of Inches using Time' )
     inches_box.grid(row = 5, column = 0)
     inches_speed_box = ttk.Entry(frame, width = 8)
     inches_box_speed_label = ttk.Label(frame, text = 'at the speed')
@@ -176,7 +176,7 @@ def get_drive_for_frame(window, mqtt_sender):
 
 
     distance_box = ttk.Entry(frame, width = 8)
-    distance_box_label = ttk.Label(frame, text = 'Inches using Encoder' )
+    distance_box_label = ttk.Label(frame, text = 'Number of Inches using Encoder' )
     distance_box.grid(row = 8, column = 0)
     distance_speed_box = ttk.Entry(frame, width = 8)
     distance_box_speed_label = ttk.Label(frame, text = 'at the speed')
@@ -201,6 +201,28 @@ def get_drive_for_frame(window, mqtt_sender):
 
     return frame
 
+def get_sound_request(window, mqtt_sender):
+    frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
+    frame.grid()
+
+    beep_label = ttk.Label(window, text= 'Enter # of beeps:').grid(column= 0, row=0)
+    beep_number_entry = ttk.Entry(window, width = 8).grid(column=1, row=0)
+    beep_number_button = ttk.Button(window, text = 'Execute # of Beeps').grid(column=2, row=0)
+    beep_number_button['command'] = lambda: handle_beeps_for_number(mqtt_sender, beep_number_entry.get())
+
+    duration_label = ttk.Label(window, text = 'Enter duration: ').grid(column = 0, row = 1)
+    duration_entry = ttk.Entry(window, width = 8).grid(column=1,row=1)
+    frequency_label = ttk.Label(window, text='Enter Frequency: ').grid(column=2, row=1)
+    frequency_entry = ttk.Entry(window, width=8).grid(column=3, row = 1)
+    enter_button = ttk.Button(window, text='Execute Tone Maker').grid(column=4, row=1)
+    enter_button['command'] = lambda: handle_play_freq_duration(mqtt_sender, frequency_entry.get(), duration_entry.get())
+
+    speak_label = ttk.Label(window, text = 'Enter speech text: ').grid(column = 0, row = 2)
+    speak_entry = ttk.Entry(window, width = 8).grid(row=2, column=1)
+    speak_button = ttk.Button(window, text='Execute Speak').grid(column=2, row=2)
+    speak_button['command'] = lambda :handle_speak(mqtt_sender, speak_entry.get())
+
+    return frame
 
 ###############################################################################
 ###############################################################################
@@ -322,6 +344,17 @@ def handle_go_for_inches_using_encoder(mqtt_sender, distance_box, distance_speed
     print('go for', distance_box, 'inches at speed', distance_speed_box, 'using the encoder')
     mqtt_sender.send_message('go_straight_for_inches_using_encoder', [int(distance_box), int(distance_speed_box)])
 
+def handle_beeps_for_number(mqtt_sender, beeps_entry):
+    print("beep for", beeps_entry)
+    mqtt_sender.send_message('beeps_for_number', [int(beeps_entry)])
+
+def handle_play_freq_duration(mqtt_sender, frequency, duration):
+    print('frequency', frequency, ' duration: ', duration)
+    mqtt_sender.send_message('play_freq_duration', [int(frequency), int(duration)])
+
+def handle_speak(mqtt_sender, speak_string):
+    print('speak: ', speak_string)
+    mqtt_sender.send_message("speak", [speak_string])
 
 ###############################################################################
 # Handlers for Buttons in the Control frame.

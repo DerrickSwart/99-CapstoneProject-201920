@@ -60,7 +60,7 @@ def get_shared_frames(main_frame, mqtt_sender):
     arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     go_for_frame = shared_gui.get_drive_for_frame(main_frame, mqtt_sender)
-    make_sounds = shared_gui.///(main_frame, mqtt_sender)
+    #make_sounds = shared_gui.///(main_frame, mqtt_sender)
     return teleop_frame, arm_frame, control_frame, go_for_frame
 
 
