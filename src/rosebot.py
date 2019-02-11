@@ -460,6 +460,8 @@ class Beeper(object):
         # DCM: Indicate that returns a subprocess.Popen, which has a WAIT method
         return self._beeper.beep()
 
+    def beep_times(self, number_beeps):
+        pass
 
 class ToneMaker(object):
     def __init__(self):
@@ -470,10 +472,9 @@ class ToneMaker(object):
         # DCM: Indicate that returns a subprocess.Popen, which has a WAIT method
         return self._tone_maker.tone(frequency, duration)  # MHz, msec  DCM XXX CTO
 
-
 class SpeechMaker(object):
-    pass
-
+    def speak(self, saythis):
+        pass
 
 class SongMaker(object):
     pass
