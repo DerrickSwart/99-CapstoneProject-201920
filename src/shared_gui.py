@@ -158,7 +158,7 @@ def get_drive_for_frame(window, mqtt_sender):
     seconds_box.grid(row = 2, column = 0)
     second_speed_box = ttk.Entry(frame, width = 8)
     second_speed_box_label = ttk.Label(frame, text = 'speed')
-    second_speed_box.grid(row = 2, column = 2)
+    second_speed_box.grid(row = 2, column = 3)
 
     second_speed_box_label.grid(row = 1, column = 3)
     seconds_box_label.grid(row = 1, column = 0)
