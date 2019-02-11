@@ -41,3 +41,6 @@ class Handler(object):
     def calibrate_arm(self):
         print('recieved calibrate arm')
         self.robot.arm_and_claw.calibrate_arm()
+    def move_arm_to_position(self, desired_position):
+        print('recieved move arm to position', desired_position)
+        self.robot.arm_and_claw.move_arm_to_position(desired_position)
