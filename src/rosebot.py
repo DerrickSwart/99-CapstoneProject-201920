@@ -57,7 +57,6 @@ class DriveSystem(object):
     #          counter-clockwise
     #          (i.e., left motor goes at speed -S, right motor at speed S).
     # -------------------------------------------------------------------------
-
     def __init__(self, sensor_system):
         """
         Stores the given SensorSystem object.
@@ -113,6 +112,14 @@ class DriveSystem(object):
         using the encoder (degrees traveled sensor) built into the motors.
         """
 
+
+        inches_per_degree = self.wheel_circumference / 360
+        self.left_motor.reset_position()
+        self.right_motor.reset_position()
+
+        while (abs(self.left_motor.get_position()) * inches_per_degree) <= inches:
+            self.go(speed, speed)
+        self.stop()
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
     # -------------------------------------------------------------------------
