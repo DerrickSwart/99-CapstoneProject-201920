@@ -44,3 +44,12 @@ class Handler(object):
     def move_arm_to_position(self, desired_position):
         print('recieved move arm to position', desired_position)
         self.robot.arm_and_claw.move_arm_to_position(desired_position)
+    def go_straight_for_seconds(self, time, speed):
+        print('recieved go straight for seconds:   ', time, speed)
+        self.robot.drive_system.go_straight_for_seconds(time, speed)
+    def go_straight_for_inches_using_time(self, inches, speed):
+        print('recieved go straight for seconds using time:   ', inches, speed)
+        self.robot.drive_system.go_straight_for_inches_using_time(inches, speed)
+    def go_straight_for_inches_using_encoder(self, inches, speed):
+        print('recieved go straight for inches using encoder:   ', inches, speed)
+        self.robot.drive_system.go_straight_for_inches_using_encoder(inches, speed)
