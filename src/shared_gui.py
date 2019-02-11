@@ -149,7 +149,7 @@ def get_control_frame(window, mqtt_sender):
 def get_drive_for_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding =10, borderwidth = 5, relief = "ridge")
     frame.grid()
-    frame_label = ttk.Label(frame, text = 'drive for ______')
+    frame_label = ttk.Label(frame, text = 'drive for functions')
     frame_label.grid(row = 0, column = 1)
 
 
@@ -166,25 +166,33 @@ def get_drive_for_frame(window, mqtt_sender):
 
     inches_box = ttk.Entry(frame, width = 8)
     inches_box_label = ttk.Label(frame, text = 'Number of Inches using Time' )
-    inches_box.grid(row = 4, column = 0)
+    inches_box.grid(row = 5, column = 0)
     inches_speed_box = ttk.Entry(frame, width = 8)
     inches_box_speed_label = ttk.Label(frame, text = 'at the speed')
-    inches_speed_box.grid(row = 4, column = 3)
+    inches_speed_box.grid(row = 5, column = 3)
 
-    inches_box_speed_label.grid(row = 3, column = 3)
-    inches_box_label.grid(row = 3, column = 0)
+    inches_box_speed_label.grid(row = 4, column = 3)
+    inches_box_label.grid(row = 4, column = 0)
 
 
     distance_box = ttk.Entry(frame, width = 8)
     distance_box_label = ttk.Label(frame, text = 'Number of Inches using Encoder' )
-    distance_box.grid(row = 6, column = 0)
+    distance_box.grid(row = 8, column = 0)
     distance_speed_box = ttk.Entry(frame, width = 8)
     distance_box_speed_label = ttk.Label(frame, text = 'at the speed')
-    distance_speed_box.grid(row = 6, column = 3)
+    distance_speed_box.grid(row = 8, column = 3)
 
-    distance_box_speed_label.grid(row = 5, column = 3)
-    distance_box_label.grid(row = 5, column = 0)
+    distance_box_speed_label.grid(row = 7, column = 3)
+    distance_box_label.grid(row = 7, column = 0)
 
+
+    seconds_box_button = ttk.Button(frame, text = "Run Go For Seconds")
+    time_box_button = ttk.Button(frame, text = "Run Go For Inches Using Time")
+    distance_box_button = ttk.Button(frame, text = "Run Go For Inches Using Encoder")
+
+    seconds_box_button.grid(row = 3, column = 1)
+    time_box_button.grid(row = 6, column = 1)
+    distance_box_button.grid(row=9, column = 1)
 
 
     return frame
