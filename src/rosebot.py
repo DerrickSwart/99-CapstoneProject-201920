@@ -101,6 +101,11 @@ class DriveSystem(object):
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
 
+        seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
+        seconds = abs(inches * seconds_per_inch_at_100 / speed)
+
+        self.go_straight_for_seconds(seconds, speed)
+
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
