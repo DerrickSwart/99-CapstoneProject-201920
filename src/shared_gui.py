@@ -346,7 +346,7 @@ def handle_go_for_inches_using_encoder(mqtt_sender, distance_box, distance_speed
 
 def handle_beeps_for_number(mqtt_sender, beeps_entry):
     print("beep for", beeps_entry)
-    mqtt_sender.send_message('beeps_for_number', [int(beeps_entry)])
+    mqtt_sender.send_message('beep', [int(beeps_entry)])
 
 def handle_play_freq_duration(mqtt_sender, frequency, duration):
     print('frequency', frequency, ' duration: ', duration)
