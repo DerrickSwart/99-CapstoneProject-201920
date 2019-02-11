@@ -135,7 +135,7 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         my_sensor = SensorSystem()
-        while intensity > my_sensor.color_sensor.get_ambient_light_intensity():
+        while intensity > my_sensor.color_sensor.get_reflected_light_intensity():
             continue
         self.stop()
 
@@ -144,9 +144,14 @@ class DriveSystem(object):
         Goes straight at the given speed until the intensity returned
         by the color_sensor is greater than the given intensity.
         """
+        self.go(speed, speed)
+        my_sensor = SensorSystem()
+        while intensity < my_sensor.color_sensor.get_reflected_light_intensity():
+            continue
+        self.stop()
 
     def go_straight_until_color_is(self, color, speed):
-         """
+        """
         Goes straight at the given speed until the color returned
         by the color_sensor is equal to the given color.
 
@@ -158,6 +163,9 @@ class DriveSystem(object):
         then use the   get_color_as_name   method to access
         the color sensor's color.
         """
+        self.go(speed, speed)
+        my_sensor = SensorSystem()
+
 
     def go_straight_until_color_is_not(self, color, speed):
         """
