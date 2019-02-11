@@ -58,4 +58,4 @@ class Handler(object):
     def toneMaker(self, frequency, duration):
         print('recieved toneMaker. I will make a tone at', frequency, 'frequency for', duration, 'seconds')
     def speak(self, phrase):
-        print('recieved speak. I will speak the phrase', phrase)
+        print('recieved speak. I will speak the phrase', phrase )
