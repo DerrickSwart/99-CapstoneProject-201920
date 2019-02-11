@@ -309,10 +309,11 @@ class SoundSystem(object):
     Use this object to make   ** any **   sounds.
     """
     def __init__(self, beeper, tone_maker, speech_maker, song_maker):
-        self.beeper = beeper
-        self.tone_maker = tone_maker
-        self.speech_maker = speech_maker
-        self.song_maker = song_maker
+        #self.beeper = beeper
+        #self.tone_maker = tone_maker
+        #self.speech_maker = speech_maker
+        #self.song_maker = song_maker
+        pass
 
     def tones_until_touch_sensor_is_pressed(self):
         """
