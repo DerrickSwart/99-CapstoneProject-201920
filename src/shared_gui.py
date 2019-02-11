@@ -146,6 +146,28 @@ def get_control_frame(window, mqtt_sender):
 
     return frame
 
+def get_drive_for_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding =10, borderwidth = 5, relief = "ridge")
+    frame.grid()
+    frame_label = ttk.Label(frame, text = 'drive for ______')
+    frame_label.grid(row = 0, column = 1)
+
+
+    seconds_box = ttk.Entry(frame, width = 8)
+    seconds_box_label = ttk.Label(frame, text = 'Number of Seconds to go forward' )
+    seconds_box.grid(row = 2, column = 0)
+    second_speed_box = ttk.Entry(frame, width = 8)
+    second_speed_box_label = ttk.Label(frame, text = 'speed')
+    second_speed_box.grid(row = 2, column = 2)
+
+    second_speed_box_label.grid(row = 1, column = 3)
+    seconds_box_label.grid(row = 1, column = 0)
+
+
+
+    return frame
+
+
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
