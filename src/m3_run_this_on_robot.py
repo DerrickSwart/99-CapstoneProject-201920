@@ -17,8 +17,8 @@ def main():
       2. Communicates via MQTT with the GUI code that runs on the LAPTOP.
     """
     #go_straight_encoder()
-    go_straight_time()
-    #real_thing()
+    #go_straight_time()
+    real_thing()
     #run_test_calibrate()
     #run_test_arm()
     #move_arm_to_position()
