@@ -53,3 +53,9 @@ class Handler(object):
     def go_straight_for_inches_using_encoder(self, inches, speed):
         print('recieved go straight for inches using encoder:   ', inches, speed)
         self.robot.drive_system.go_straight_for_inches_using_encoder(inches, speed)
+    def beep_times(self,number_of_beeps):
+        print('recieved beep. I will beep', number_of_beeps, 'times')
+    def toneMaker(self, frequency, duration):
+        print('recieved toneMaker. I will make a tone at', frequency, 'frequency for', duration, 'seconds')
+    def speak(self, phrase):
+        print('recieved speak. I will speak the phrase', phrase)
