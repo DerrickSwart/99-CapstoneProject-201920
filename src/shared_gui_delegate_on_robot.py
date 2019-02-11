@@ -60,8 +60,10 @@ class Handler(object):
             self.robot.sound_system.beeper.beep().wait()
     def tone(self, frequency, duration):
         print('recieved toneMaker. I will make a tone at', frequency, 'frequency for', duration, 'seconds')
+        self.robot.sound_system.tone_maker.play_tone(frequency, duration)
     def speak(self, phrase):
         print('recieved speak. I will speak the phrase', phrase )
+        self.robot.sound_system.speech_maker.speak(phrase)
     def quit(self):
         print("got quit")
         self.is_time_to_stop = True
