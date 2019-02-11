@@ -194,6 +194,10 @@ def get_drive_for_frame(window, mqtt_sender):
     time_box_button.grid(row = 6, column = 1)
     distance_box_button.grid(row=9, column = 1)
 
+    seconds_box_button['command'] = lambda:handle_go_for_seconds(mqtt_sender, seconds_box.get(), second_speed_box.get())
+    time_box_button['command'] = lambda: handle_go_for_inches_using_time(mqtt_sender, inches_box.get(), inches_speed_box.get())
+    distance_box_button['command'] = lambda: handle_go_for_inches_using_encoder(mqtt_sender, distance_box.get(), distance_speed_box.get())
+
 
     return frame
 
@@ -305,6 +309,19 @@ def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
     """
     print('move arm to position', arm_position_entry)
     mqtt_sender.send_message('move_arm_to_position', [int(arm_position_entry.get())])
+
+def handle_go_for_seconds(mqtt_sender, number_of_inches, speed):
+    print('go for',number_of_inches, ' inches at the speed', speed)
+    mqtt_sender.send_message('go_straight_for_seconds', [int(number_of_inches), int(speed)])
+
+def handle_go_for_inches_using_time(mqtt_sender, inches_box, inches_speed_box):
+    print('go for', inches_box, 'inches at speed', inches_speed_box,'using time')
+    mqtt_sender.send_message('go_straight_for_inches_using_time', [int(inches_box), int(inches_speed_box)])
+
+def handle_go_for_inches_using_encoder(mqtt_sender, distance_box, distance_speed_box):
+    print('go for', distance_box, 'inches at speed', distance_speed_box, 'using the encoder')
+    mqtt_sender.send_message('go_straight_for_inches_using_encoder', [int(distance_box), int(distance_speed_box)])
+
 
 ###############################################################################
 # Handlers for Buttons in the Control frame.
