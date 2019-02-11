@@ -319,6 +319,12 @@ class SoundSystem(object):
         Plays an increasing sequence of short tones,
         stopping when the touch sensor is pressed.
         """
+    def beep_times(self,number_of_beeps):
+        print('robot running number of beeps with', number_of_beeps, 'beeps')
+    def tone(self, frequency, duration):
+        print('robot running tone with freq', frequency, 'for duration', duration)
+    def speak(self,phrase):
+        print('robot running speak with the phrase', phrase)
 
 
 ###############################################################################
