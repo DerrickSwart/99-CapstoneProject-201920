@@ -223,9 +223,9 @@ class DriveSystem(object):
         my_sensor = SensorSystem()
         while abs(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches) >= delta:
             if my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches > delta:
-                self.go(speed, speed)
+                self.go_forward_until_distance_is_less_than(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches , speed)
             elif my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches < 0:
-                self.go(-1*speed, -1*speed)
+                self.go_backward_until_distance_is_greater_than(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches, speed)
         self.stop()
 
     # -------------------------------------------------------------------------
