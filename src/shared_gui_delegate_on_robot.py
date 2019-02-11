@@ -14,6 +14,7 @@ class Handler(object):
         :type robot: rosebot.RoseBot
         '''
         self.robot = robot
+        self.is_time_to_stop = False
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed),
@@ -55,7 +56,14 @@ class Handler(object):
         self.robot.drive_system.go_straight_for_inches_using_encoder(inches, speed)
     def beep_times(self,number_of_beeps):
         print('recieved beep. I will beep', number_of_beeps, 'times')
+        for k in range(number_of_beeps):
+            self.robot.sound_system.beeper.beep().wait()
     def tone(self, frequency, duration):
         print('recieved toneMaker. I will make a tone at', frequency, 'frequency for', duration, 'seconds')
     def speak(self, phrase):
         print('recieved speak. I will speak the phrase', phrase )
+    def quit(self):
+        print("got quit")
+        self.is_time_to_stop = True
+    def exit(self):
+        print("got exit")

@@ -48,6 +48,8 @@ def real_thing():
 
     while True:
         time.sleep(0.01)
+        if delegate.is_time_to_stop:
+            break
 def go_straight_encoder():
     robot = rosebot.RoseBot()
     robot.drive_system.go_straight_for_inches_using_encoder(50, 50)
