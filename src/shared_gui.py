@@ -157,11 +157,33 @@ def get_drive_for_frame(window, mqtt_sender):
     seconds_box_label = ttk.Label(frame, text = 'Number of Seconds to go forward' )
     seconds_box.grid(row = 2, column = 0)
     second_speed_box = ttk.Entry(frame, width = 8)
-    second_speed_box_label = ttk.Label(frame, text = 'speed')
+    second_speed_box_label = ttk.Label(frame, text = 'at the speed')
     second_speed_box.grid(row = 2, column = 3)
 
     second_speed_box_label.grid(row = 1, column = 3)
     seconds_box_label.grid(row = 1, column = 0)
+
+
+    inches_box = ttk.Entry(frame, width = 8)
+    inches_box_label = ttk.Label(frame, text = 'Number of Inches using Time' )
+    inches_box.grid(row = 4, column = 0)
+    inches_speed_box = ttk.Entry(frame, width = 8)
+    inches_box_speed_label = ttk.Label(frame, text = 'at the speed')
+    inches_speed_box.grid(row = 4, column = 3)
+
+    inches_box_speed_label.grid(row = 3, column = 3)
+    inches_box_label.grid(row = 3, column = 0)
+
+
+    distance_box = ttk.Entry(frame, width = 8)
+    distance_box_label = ttk.Label(frame, text = 'Number of Inches using Encoder' )
+    distance_box.grid(row = 6, column = 0)
+    distance_speed_box = ttk.Entry(frame, width = 8)
+    distance_box_speed_label = ttk.Label(frame, text = 'at the speed')
+    distance_speed_box.grid(row = 6, column = 3)
+
+    distance_box_speed_label.grid(row = 5, column = 3)
+    distance_box_label.grid(row = 5, column = 0)
 
 
 
