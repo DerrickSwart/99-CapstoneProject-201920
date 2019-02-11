@@ -802,7 +802,7 @@ class ToneMaker(object):
 
         :rtype subprocess.Popen
         """
-        return self._tone_maker.tone(frequency, duration).wait()
+        return self._tone_maker.tone(frequency, duration)
 
     def play_tone_sequence(self, tones):
         """
