@@ -259,6 +259,8 @@ def M1_pick_up_objects(window, mqtt_sender):
 
     run_button.grid(row = 3, column = 1)
 
+    return frame
+
 def ir_control(window, mqtt_sender):
     frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
     frame.grid()
