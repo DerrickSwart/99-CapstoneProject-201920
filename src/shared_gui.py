@@ -259,6 +259,8 @@ def M1_pick_up_objects(window, mqtt_sender):
 
     run_button.grid(row = 3, column = 1)
 
+    run_button['command'] = handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry.get(), rate_entry.get())
+
     return frame
 
 def ir_control(window, mqtt_sender):
@@ -280,6 +282,10 @@ def ir_control(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+def handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry, rate_entry):
+    print('m1 pick up using prox', initial_button_entry, rate_entry)
+    mqtt_sender.send_message('_m1_pick_up_using_prox', [initial_button_entry, rate_entry])
+
 def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
     """
     Tells the robot to move using the speeds in the given entry boxes,
