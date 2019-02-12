@@ -204,6 +204,8 @@ def get_drive_for_frame(window, mqtt_sender):
 def get_sound_request(window, mqtt_sender):
     frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
     frame.grid()
+    frame_label = ttk.Label(frame, text = "SoundBoard")
+    frame_label.grid(row = 0, column = 0)
 
     beep_label = ttk.Label(frame, text= 'Enter # of beeps:')
     beep_label.grid(column= 0, row=0)
@@ -234,6 +236,15 @@ def get_sound_request(window, mqtt_sender):
     speak_button['command'] = lambda : handle_speak(mqtt_sender, speak_entry.get())
 
     return frame
+
+def ir_control(window, mqtt_sender):
+    frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
+    frame.grid()
+    frame_label = ttk.Label(frame, text = 'IR Robot Control')
+    frame_label.grid(row=0, column=0)
+
+    return frame
+
 
 ###############################################################################
 ###############################################################################
