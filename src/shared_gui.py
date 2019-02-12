@@ -236,6 +236,28 @@ def get_sound_request(window, mqtt_sender):
     speak_button['command'] = lambda : handle_speak(mqtt_sender, speak_entry.get())
 
     return frame
+def M1_pick_up_objects(window, mqtt_sender):
+    frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
+    frame.grid()
+
+    frame_label = ttk.Label(frame, text = 'Pick Up object Using Proximity')
+    frame_label.grid(row = 0, column = 1)
+
+    run_button = ttk.Button(frame, text = "Run Pick up using proximity")
+    initial_button_label = ttk.Label(frame, text = "enter initial beeping rate")
+    initial_button_entry = ttk.Entry(frame, width = 8)
+
+
+    initial_button_entry.grid(row =2, column = 0 )
+    initial_button_label.grid(row = 1, column = 0)
+
+    rate_entry = ttk.Entry(frame, width = 8)
+    rate_label = ttk.Label(frame, text = 'rate of increase')
+
+    rate_entry.grid(row = 2, column = 2)
+    rate_label.grid(row = 1, column = 2)
+
+    run_button.grid(row = 3, column = 1)
 
 def ir_control(window, mqtt_sender):
     frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
