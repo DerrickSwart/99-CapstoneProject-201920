@@ -166,7 +166,7 @@ class DriveSystem(object):
         self.go(speed, speed)
         my_sensor = SensorSystem()
         while color != my_sensor.color_sensor.get_color():
-            continue
+            print(my_sensor.color_sensor.get_color())
         self.stop()
 
 
