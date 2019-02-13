@@ -323,8 +323,8 @@ def proximity_control_frame(window, mqtt_sender):
 
     inches_entry = ttk.Entry(frame, width = 8)
     inches_entry_label = ttk.Label(frame, text = 'enter inches')
-    inches_entry_label.grid(row = 2, column = 1)
-    inches_entry.grid(row = 2, column = 0)
+    inches_entry_label.grid(row = 3, column = 1)
+    inches_entry.grid(row = 3, column = 0)
 
     go_until_close_button = ttk.Button(frame, text = 'forward until dist. less than')
     go_until_close_button['command']= lambda: handle_go_until_distance_less_than(mqtt_sender, inches_entry.get(),
@@ -335,6 +335,16 @@ def proximity_control_frame(window, mqtt_sender):
                                                                                         , speed_entry.get())
     go_until_further_than_button.grid(row = 3, column = 2)
 
+    range_entry = ttk.Entry(frame, width = 8)
+    range_label = ttk.Label(frame, text = 'enter range to be within')
+    range_entry.grid(row = 4, column = 0)
+    range_label.grid(row = 4, column = 1)
+
+    dist_within_button = ttk.Button(frame, text= 'go until dist. within')
+    dist_within_button['command']= lambda :handle_go_until_distance_within(mqtt_sender, range_entry.get(),
+                                                                           inches_entry.get(),
+                                                                           speed_entry.get())
+    dist_within_button.grid(row = 5, column = 2)
 
 
 
@@ -357,6 +367,9 @@ def proximity_control_frame(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+def handle_go_until_distance_within(mqtt_sender, range_entry, inches_entry, speed_entry):
+    print('go until within',range_entry, 'inches of', inches_entry, 'at speed', speed_entry)
+    mqtt_sender.send_message('go_until_within_distance', [range_entry, inches_entry, speed_entry])
 def handle_backward_until_further_than(mqtt_sender,inches_entry, speed_entry):
     print('go back until distance is bigger than', inches_entry, 'at speed', speed_entry)
     mqtt_sender.send_message('backward_until_further_than', [inches_entry,speed_entry])
