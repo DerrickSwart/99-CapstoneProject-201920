@@ -285,6 +285,13 @@ def ir_control(window, mqtt_sender):
     go_until_color_label = ttk.Label(frame, text = 'color to stop at')
     go_until_color_button = ttk.Button(frame, text = 'go until color')
 
+    intensity_label = ttk.Label(frame, text = 'enter intensity')
+    intensity_entry = ttk.Entry(frame, width = 8)
+    intensity_entry.grid(row = 4, column = 0)
+    intensity_label.grid(row = 4, column = 1)
+
+    
+
 
     go_until_color_label.grid(row = 3, column = 1)
     go_until_color_entry.grid(row = 3, column = 0)
