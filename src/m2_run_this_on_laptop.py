@@ -37,7 +37,7 @@ def main():
     main.grid()
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
-    # -------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     teleop_frame, arm_frame, control_frame, go_for_frame, make_sounds, ir_control = get_shared_frames(main, mqqt_sender)
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
@@ -48,8 +48,19 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-
-
+    frame = ttk.Frame(main, relief = 'groove', borderwidth = 5, padding = 10)
+    frame.grid(column=1, row = 1)
+    init_label = ttk.Label(frame, text='Initial Frequency')
+    init_label.grid(column=0, row=0)
+    init_entry = ttk.Entry(frame, width = 8)
+    init_entry.grid(column=0, row=1)
+    increase_label = ttk.Label(frame, text='Increase Rate')
+    increase_label.grid(column=1, row=0)
+    increase_entry = ttk.Entry(frame, width = 8)
+    increase_entry.grid(column=1, row=1)
+    submit_button = ttk.Button(frame, text='Go Forward Beeping Faster')
+    submit_button.grid(rowspan=2)
+    submit_button['command'] = lambda: go_forward_beeping_faster(mqqt_sender, init_entry.get(), increase_entry.get())
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
@@ -73,6 +84,9 @@ def grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame, make_sound
     make_sounds.grid(column=0, row=4)
     ir_control.grid(column=1, row=0)
 
+def go_forward_beeping_faster(mqqt_sender, initial_freq, increase_rate):
+    mqqt_sender.send_message('go_forward_tone' , [int(initial_freq), int(increase_rate)])
+    print('sent message', initial_freq, increase_rate)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
