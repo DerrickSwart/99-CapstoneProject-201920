@@ -132,5 +132,6 @@ class Handler(object):
         self.robot.drive_system.go_forward_until_distance_is_less_than(int(inches), int(speed))
     def backward_until_further_than(self,inches, speed):
         self.robot.drive_system.go_backward_until_distance_is_greater_than(int(inches),int(speed))
-
+    def go_until_within_distance(self,delta, inches, speed):
+        self.robot.drive_system.go_until_distance_is_within(int(delta),int(inches),int(speed))
 
