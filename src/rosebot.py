@@ -193,8 +193,7 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         """
         self.go(speed, speed)
-        my_sensor = SensorSystem()
-        while my_sensor.ir_proximity_sensor.get_distance_in_inches() > inches:
+        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() > inches:
             continue
         self.stop()
 
@@ -205,8 +204,7 @@ class DriveSystem(object):
         Assumes that it senses an object when it starts.
         """
         self.go(-1*speed, -1*speed)
-        my_sensor = SensorSystem()
-        while my_sensor.ir_proximity_sensor.get_distance_in_inches() < inches:
+        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() < inches:
             continue
         self.stop()
 
@@ -231,7 +229,7 @@ class DriveSystem(object):
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared beacon sensor.
     # -------------------------------------------------------------------------
-
+    '''
     def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
         """
               Spins clockwise at the given speed until the heading to the Beacon
@@ -262,7 +260,7 @@ class DriveSystem(object):
         while self.sensor_system.ir_beacon_sensor.get_distance_to_beacon() >= inches+15:
             continue
         self.stop()
-
+    '''
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the camera.
@@ -387,7 +385,7 @@ class SensorSystem(object):
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.camera = Camera()
-        self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        #self.ir_beacon_sensor = InfraredBeaconSensor(4)
         #self.beacon_seeker = ev3.BeaconSeeker(channel=1)
         # self.display_system =
 
