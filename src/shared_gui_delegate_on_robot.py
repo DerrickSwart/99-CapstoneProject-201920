@@ -69,3 +69,18 @@ class Handler(object):
         self.is_time_to_stop = True
     def exit(self):
         print("got exit")
+    def m1_pick_up_using_prox(self, initial_rate, rate_increase):
+        print('recieved m1 pick up using prox with initial speed', initial_rate, 'and rate increase of ', rate_increase )
+        wait_time = (initial_rate *1000)
+        self.robot.drive_system.go(75, 75)
+        while True:
+            self.robot.sound_system.beeper().wait(wait_time)
+            wait_time = wait_time - rate_increase * 250
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance() < 2:
+                self.robot.drive_system.stop()
+                self.go_straight_for_inches_using_encoder(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches(), 50)
+                break
+        self.robot.arm_and_claw.raise_arm()
+
+
+
