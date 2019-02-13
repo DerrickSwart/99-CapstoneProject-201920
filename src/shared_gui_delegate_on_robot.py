@@ -75,7 +75,7 @@ class Handler(object):
         self.robot.drive_system.go(30, 30)
         while True:
             self.robot.sound_system.beeper().wait(wait_time)
-            wait_time = wait_time - rate_increase * 50
+            wait_time = wait_time - (rate_increase * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
             if self.robot.sensor_system.ir_proximity_sensor.get_distance() < 1:
                 self.robot.drive_system.stop()
                 break
