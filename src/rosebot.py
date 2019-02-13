@@ -239,7 +239,7 @@ class DriveSystem(object):
               """
         self.go(speed, -1*speed)
         my_sensor = SensorSystem()
-        while my_sensor.beacon_seeker.heading > 0 :
+        while my_sensor.beacon_seeker.heading < 0 :
             continue
         self.stop()
 
@@ -250,7 +250,7 @@ class DriveSystem(object):
                """
         self.go(-1* speed,speed)
         my_sensor = SensorSystem()
-        while my_sensor.beacon_seeker.heading < 0:
+        while my_sensor.beacon_seeker.heading > 0:
             continue
         self.stop()
 
