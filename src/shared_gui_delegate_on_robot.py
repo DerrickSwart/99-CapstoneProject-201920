@@ -85,6 +85,24 @@ class Handler(object):
         print('recieved m1 pick up using pixycam', initial_rate, rate_increase)
 
 
+    def go_until_color(self, color, speed):
+        colornumber = 0
+        print('recieved color', color)
+        if color == "Black" or "black":
+            colornumber = 1
+        if color == "Blue" or "blue":
+            colornumber = 2
+        if color == "Green" or "green":
+            colornumber = 3
+        if color == "Yellow" or "yellow":
+            colornumber = 4
+        if color == "Red" or "red":
+            colornumber = 5
+        if color == "White" or "white":
+            colornumber = 6
+        if color == "Brown" or "brown":
+            colornumber = 7
 
+        self.robot.drive_system.go_straight_until_color_is(colornumber, speed)
 
 
