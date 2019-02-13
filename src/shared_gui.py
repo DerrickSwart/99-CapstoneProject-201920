@@ -260,10 +260,14 @@ def M1_pick_up_objects(window, mqtt_sender):
     run_button.grid(row = 3, column = 1)
 
     pixy_cam_pickup_button = ttk.Button(frame, text = 'pick up using pixycam')
+    pixy_cam_pickup_button.grid(row = 6, column = 1)
 
-
-    run_button['command'] = handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry.get(), rate_entry.get())
-
+    pixy_cam_direction_entry = ttk.Entry(frame, width = 8)
+    pixy_cam_entry_label = ttk.Label(frame, text = 'enter direction of turning and the two rates above')
+    pixy_cam_direction_entry.grid(row = 5, column = 1)
+    pixy_cam_entry_label.grid(row = 4, column = 1)
+    run_button['command'] = lambda: handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry.get(), rate_entry.get())
+    pixy_cam_pickup_button['command'] = lambda: handle_m1_pick_up_using_pixy(mqtt_sender, initial_button_entry.get(), rate_entry.get(), pixy_cam_direction_entry.get() )
     return frame
 
 def ir_control(window, mqtt_sender):
@@ -285,9 +289,13 @@ def ir_control(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
-def handle_m1_pick_up_objects(mqtt_sender, initial_button_entry, rate_entry):
+def handle_m1_pick_up_using_pixy(mqtt_sender, initial_button_entry, rate_entry, direction):
+    print('pick up using pixycam', initial_button_entry, rate_entry)
+    mqtt_sender.send_message('m1_pick_up_using_pixy', initial_button_entry, rate_entry, direction)
+
+def handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry, rate_entry):
     print('m1 pick up using prox', initial_button_entry, rate_entry)
-    mqtt_sender.send_message('m1_pick_up_objects', [initial_button_entry, rate_entry])
+    mqtt_sender.send_message('m1_pick_up_using_prox', [initial_button_entry, rate_entry])
 
 def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
     """
