@@ -29,10 +29,6 @@ def actual_code():
         if delegate.is_time_to_stop:
             break
 
-    while True:
-        time.sleep(0.01)
-
-
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

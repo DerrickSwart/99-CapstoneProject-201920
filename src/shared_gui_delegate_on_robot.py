@@ -6,7 +6,7 @@
     and Joseph Conrad, Derrick Swart, Joshua Giambattista.
   Winter term, 2018-2019.
 """
-
+import time
 class Handler(object):
     def __init__(self, robot):
         '''
@@ -69,18 +69,20 @@ class Handler(object):
         self.is_time_to_stop = True
     def exit(self):
         print("got exit")
-    def m1_pick_up_using_prox(self, initial_rate, rate_increase):
-        print('recieved m1 pick up using prox with initial speed', initial_rate, 'and rate increase of ', rate_increase )
-        wait_time = (int(initial_rate) * 1500)
+    def m1_pick_up_using_prox(self, initial_time, rate_increase):
+        print('recieved m1 pick up using prox with initial speed', initial_time, 'and rate increase of ', str(rate_increase) )
+        wait_time = int(initial_time)
         self.robot.arm_and_claw.calibrate_arm()
-        self.robot.drive_system.go(30, 30)
+        self.robot.drive_system.go(20, 20)
         while True:
-            self.robot.sound_system.beeper.beep().wait(wait_time)
-            wait_time = wait_time - (float(rate_increase))
-            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 1:
+            self.robot.sound_system.beeper.beep().wait()
+            time.sleep(wait_time)
+
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 0.5:
                 print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
                 self.robot.drive_system.stop()
                 break
+            wait_time = int(initial_time) * ((float(rate_increase)/100) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
         self.robot.arm_and_claw.raise_arm()
     def m1_pick_up_using_pixy(self, initial_rate, rate_increase, direction):
         print('recieved m1 pick up using pixycam', int(initial_rate), int(rate_increase))
