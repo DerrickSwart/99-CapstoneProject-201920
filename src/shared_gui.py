@@ -351,6 +351,8 @@ def proximity_control_frame(window, mqtt_sender):
 
 
 
+
+
     return frame
 
 
