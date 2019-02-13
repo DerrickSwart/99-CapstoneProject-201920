@@ -21,7 +21,7 @@ def main():
 
 def actual_code():
     robot = rosebot.RoseBot()
-    delegate = shared_gui_delegate_on_robot.handler(robot)
+    delegate = shared_gui_delegate_on_robot.Handler(robot)
     mqtt_reciever = com.MqttClient(delegate)
     mqtt_reciever.connect_to_pc()
 
