@@ -307,7 +307,7 @@ def ir_control(window, mqtt_sender):
     go_until_color_label.grid(row = 3, column = 1)
     go_until_color_entry.grid(row = 3, column = 0)
     go_until_color_button.grid(row = 3, column = 2)
-    go_until_color_button['command']= lambda: handle_go_until_color(mqtt_sender, go_until_color_entry.get())
+    go_until_color_button['command']= lambda: handle_go_until_color(mqtt_sender, go_until_color_entry.get(), speed_entry.get())
 
     return frame
 def proximity_control_frame(window, mqtt_sender):
@@ -390,9 +390,9 @@ def handle_go_until_intensity_less_than(mqtt_sender, intensity, speed):
     mqtt_sender.send_message('go_straight_until_intensity_is_less_than', [int(intensity), int(speed)])
 
 
-def handle_go_until_color(mqtt_sender, color):
+def handle_go_until_color(mqtt_sender, color, speed):
     print('go until color using the color:  ', color)
-    mqtt_sender.send_message('go_until_color', [color])
+    mqtt_sender.send_message('go_until_color', [color,speed])
 def handle_m1_pick_up_using_pixy(mqtt_sender, initial_button_entry, rate_entry, direction):
     print('pick up using pixycam', initial_button_entry, rate_entry)
     mqtt_sender.send_message('m1_pick_up_using_pixy', [initial_button_entry, rate_entry, direction])
