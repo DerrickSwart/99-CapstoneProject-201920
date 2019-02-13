@@ -259,15 +259,8 @@ def M1_pick_up_objects(window, mqtt_sender):
 
     run_button.grid(row = 3, column = 1)
 
-    pixy_cam_pickup_button = ttk.Button(frame, text = 'pick up using pixycam')
-    pixy_cam_pickup_button.grid(row = 6, column = 1)
 
-    pixy_cam_direction_entry = ttk.Entry(frame, width = 8)
-    pixy_cam_entry_label = ttk.Label(frame, text = 'enter direction of turning and the two rates above')
-    pixy_cam_direction_entry.grid(row = 5, column = 1)
-    pixy_cam_entry_label.grid(row = 4, column = 1)
     run_button['command'] = lambda: handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry.get(), rate_entry.get())
-    pixy_cam_pickup_button['command'] = lambda: handle_m1_pick_up_using_pixy(mqtt_sender, initial_button_entry.get(), rate_entry.get(), pixy_cam_direction_entry.get() )
     return frame
 
 def ir_control(window, mqtt_sender):
@@ -345,6 +338,45 @@ def proximity_control_frame(window, mqtt_sender):
                                                                            inches_entry.get(),
                                                                            speed_entry.get())
     dist_within_button.grid(row = 5, column = 2)
+    return frame
+
+
+def m1_find_with_pixy_using_color(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='groove')
+    frame.grid()
+    frame_label = ttk.Label(frame, text= 'm1 find and pickup an object using pixy')
+    frame_label.grid(row = 0, column = 0)
+
+    scale = ttk.Scale(frame, from_=0, to=100)
+    speed_label = ttk.Label(frame, text = 'speed from 0-100 respectivly')
+    speed_label.grid(row = 1, column = 0)
+    scale.grid(row = 1, column = 1)
+
+    direction_box = ttk.Entry(frame, width = 8)
+    direction_box_label = ttk.Label(frame, text = 'enter direction, CCW or CW')
+    direction_box_label.grid(row = 2, column = 0)
+    direction_box.grid(row = 2, column = 1)
+
+    initial_button_label = ttk.Label(frame, text="enter initial beeping rate")
+    initial_button_entry = ttk.Entry(frame, width=8)
+
+    initial_button_entry.grid(row=3, column=1)
+    initial_button_label.grid(row=3, column=0)
+
+    rate_entry = ttk.Entry(frame, width=8)
+    rate_label = ttk.Label(frame, text='rate of increase')
+
+    rate_entry.grid(row=4, column=1)
+    rate_label.grid(row=4, column=0)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -369,6 +401,11 @@ def proximity_control_frame(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+def speed_test(speed):
+    print(speed)
+
+
+
 def handle_go_until_distance_within(mqtt_sender, range_entry, inches_entry, speed_entry):
     print('go until within',range_entry, 'inches of', inches_entry, 'at speed', speed_entry)
     mqtt_sender.send_message('go_until_within_distance', [range_entry, inches_entry, speed_entry])
@@ -393,9 +430,9 @@ def handle_go_until_intensity_less_than(mqtt_sender, intensity, speed):
 def handle_go_until_color(mqtt_sender, color, speed):
     print('go until color using the color:  ', color)
     mqtt_sender.send_message('go_until_color', [color,speed])
-def handle_m1_pick_up_using_pixy(mqtt_sender, initial_button_entry, rate_entry, direction):
+def handle_m1_pick_up_using_pixy(mqtt_sender, speed, initial_button_entry, rate_entry, direction):
     print('pick up using pixycam', initial_button_entry, rate_entry)
-    mqtt_sender.send_message('m1_pick_up_using_pixy', [initial_button_entry, rate_entry, direction])
+    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, initial_button_entry, rate_entry, direction])
 
 def handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry, rate_entry):
     print('m1 pick up using prox', initial_button_entry, rate_entry)

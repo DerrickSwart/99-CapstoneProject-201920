@@ -48,8 +48,9 @@ def main():
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # TODO: Implement and call get_my_frames(...)
-    m1_pick_up_objects = get_my_frames(main_frame, mqtt_sender)
+    m1_pick_up_objects, m1_find_with_pixy_using_color = get_my_frames(main_frame, mqtt_sender)
     m1_pick_up_objects.grid(row = 1, column = 1)
+    m1_find_with_pixy_using_color.grid(row = 3, column = 1)
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
@@ -85,7 +86,8 @@ def grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame, ir_frame, 
 
 def get_my_frames(main_frame, mqtt_sender):
     m1_pick_up_objects = shared_gui.M1_pick_up_objects(main_frame, mqtt_sender)
-    return  m1_pick_up_objects
+    m1_find_with_pixy_using_color = shared_gui.m1_find_with_pixy_using_color(main_frame, mqtt_sender)
+    return  m1_pick_up_objects, m1_find_with_pixy_using_color
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
