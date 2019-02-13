@@ -254,12 +254,18 @@ class DriveSystem(object):
             continue
         self.stop()
 
-    def go_straight_to_the_beacon(self, speed):
-         """
+    def go_straight_to_the_beacon(self, inches, speed):
+        """
             Goes forward at the given speed until the robot is less than the
             given number of inches from the Beacon.
             Assumes that the Beacon is turned on and placed straight ahead.
-         """
+        """
+        self.go(speed, speed)
+        my_sensor = SensorSystem()
+        while my_sensor.ir_beacon_sensor.get_distance_to_beacon() >= inches:
+            continue
+        self.stop()
+
 
 
     # -------------------------------------------------------------------------
