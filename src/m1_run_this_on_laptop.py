@@ -42,7 +42,7 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, go_for_frame = get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, go_for_frame, ir_frame = get_shared_frames(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
@@ -53,7 +53,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame, ir_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -66,15 +66,18 @@ def get_shared_frames(main_frame, mqtt_sender):
     arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     go_for_frame = shared_gui.get_drive_for_frame(main_frame, mqtt_sender)
-    return teleop_frame, arm_frame, control_frame, go_for_frame
+    ir_frame = shared_gui.ir_control(main_frame, mqtt_sender)
+    return teleop_frame, arm_frame, control_frame, go_for_frame, ir_frame
 
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame, ir_frame):
     teleop_frame.grid(row = 0, column = 0)
     arm_frame.grid(row = 1, column = 0)
     control_frame.grid(row = 2, column = 0)
     go_for_frame.grid(row = 3, column = 0)
+    ir_frame.grid(row = 4, column = 0)
+
 
 def get_my_frames(main_frame, mqtt_sender):
     m1_pick_up_objects = shared_gui.M1_pick_up_objects(main_frame, mqtt_sender)
