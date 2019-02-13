@@ -190,9 +190,9 @@ def get_drive_for_frame(window, mqtt_sender):
     time_box_button = ttk.Button(frame, text = "Run Go For Inches Using Time")
     distance_box_button = ttk.Button(frame, text = "Run Go For Inches Using Encoder")
 
-    seconds_box_button.grid(row = 3, column = 1)
-    time_box_button.grid(row = 6, column = 1)
-    distance_box_button.grid(row=9, column = 1)
+    seconds_box_button.grid(row = 2, column = 1)
+    time_box_button.grid(row = 5, column = 1)
+    distance_box_button.grid(row=8, column = 1)
 
     seconds_box_button['command'] = lambda:handle_go_for_seconds(mqtt_sender, seconds_box.get(), second_speed_box.get())
     time_box_button['command'] = lambda: handle_go_for_inches_using_time(mqtt_sender, inches_box.get(), inches_speed_box.get())
@@ -273,7 +273,7 @@ def M1_pick_up_objects(window, mqtt_sender):
 def ir_control(window, mqtt_sender):
     frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
     frame.grid()
-    frame_label = ttk.Label(frame, text = 'IR Robot Control')
+    frame_label = ttk.Label(frame, text = 'Robot Control')
     frame_label.grid(row=0, column=1)
 
     speed_entry = ttk.Entry(frame, width = 8)
@@ -282,15 +282,26 @@ def ir_control(window, mqtt_sender):
     speed_entry_label.grid(row = 1, column = 1)
 
     go_until_color_entry = ttk.Entry(frame, width = 8)
-    go_until_color_label = ttk.Label(frame, text = 'color to stop at')
+    go_until_color_label = ttk.Label(frame, text = 'color ')
     go_until_color_button = ttk.Button(frame, text = 'go until color')
+    go_until_color_not_button = ttk.Button(frame, text = 'stop when color is not')
+    go_until_color_not_button['command']= lambda: handle_go_until_color_is_not(mqtt_sender, go_until_color_entry.get(),
+                                                                               speed_entry.get())
+    go_until_color_not_button.grid(row = 4, column = 2)
 
     intensity_label = ttk.Label(frame, text = 'enter intensity')
     intensity_entry = ttk.Entry(frame, width = 8)
-    intensity_entry.grid(row = 4, column = 0)
-    intensity_label.grid(row = 4, column = 1)
+    intensity_entry.grid(row = 5, column = 0)
+    intensity_label.grid(row = 5, column = 1)
 
-
+    intensity_lower_than_button = ttk.Button(frame,text = 'run go until intensity is lower than')
+    intensity_lower_than_button['command'] = lambda : handle_go_until_intensity_less_than(mqtt_sender, intensity_entry.get(),
+                                                                                          speed_entry.get())
+    intensity_bigger_than_button = ttk.Button(frame, text = 'run go until intensity is greater than')
+    intensity_bigger_than_button['command'] = lambda: handle_intensity_bigger_than(mqtt_sender, intensity_entry.get(),
+                                                                                   speed_entry.get())
+    intensity_lower_than_button.grid(row = 5,  column = 2)
+    intensity_bigger_than_button.grid(row = 6, column = 2)
 
 
     go_until_color_label.grid(row = 3, column = 1)
@@ -299,6 +310,41 @@ def ir_control(window, mqtt_sender):
     go_until_color_button['command']= lambda: handle_go_until_color(mqtt_sender, go_until_color_entry.get())
 
     return frame
+def proximity_control_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='ridge')
+    frame.grid()
+    frame_label = ttk.Label(frame, text='Proximity control')
+    frame_label.grid(row=0, column=1)
+
+    speed_entry = ttk.Entry(frame, width=8)
+    speed_entry_label = ttk.Label(frame, text='enter speed here for all functions below')
+    speed_entry.grid(row=1, column=0)
+    speed_entry_label.grid(row=1, column=1)
+
+    inches_entry = ttk.Entry(frame, width = 8)
+    inches_entry_label = ttk.Label(frame, text = 'enter inches')
+    inches_entry_label.grid(row = 2, column = 1)
+    inches_entry.grid(row = 2, column = 0)
+
+    go_until_close_button = ttk.Button(frame, text = 'forward until dist. less than')
+    go_until_close_button['command']= lambda: handle_go_until_distance_less_than(mqtt_sender, inches_entry.get(),
+                                                                                 speed_entry.get())
+    go_until_close_button.grid(row = 2, column = 2)
+    go_until_further_than_button = ttk.Button(frame, text = 'backward until dist. is greater than')
+    go_until_further_than_button['command']= lambda: handle_backward_until_further_than(mqtt_sender,inches_entry.get()
+                                                                                        , speed_entry.get())
+    go_until_further_than_button.grid(row = 3, column = 2)
+
+
+
+
+
+
+
+    return frame
+
+
+
 
 
 ###############################################################################
@@ -311,6 +357,24 @@ def ir_control(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+def handle_backward_until_further_than(mqtt_sender,inches_entry, speed_entry):
+    print('go back until distance is bigger than', inches_entry, 'at speed', speed_entry)
+    mqtt_sender.send_message('backward_until_further_than', [inches_entry,speed_entry])
+def handle_go_until_distance_less_than(mqtt_sender, inches_entry,speed_entry):
+    print('go until distance is less than', inches_entry, 'at a speed', speed_entry)
+    mqtt_sender.send_message('go_until_distance_less_than', [inches_entry,speed_entry])
+def handle_go_until_color_is_not(mqtt_sender, go_until_color_entry, speed_entry):
+    print('go until color is not', go_until_color_entry, 'at speed', speed_entry)
+    mqtt_sender.send_message('go_until_color_is_not', [go_until_color_entry,speed_entry])
+def handle_intensity_bigger_than(mqtt_sender, intensity_entry, speed_entry):
+    print('go until intensity greater than', intensity_entry, 'at speed', speed_entry)
+    mqtt_sender.send_message('intensity_bigger_than', [intensity_entry, speed_entry])
+
+def handle_go_until_intensity_less_than(mqtt_sender, intensity, speed):
+    print('go until intensity is less than', intensity)
+    mqtt_sender.send_message('go_straight_until_intensity_is_less_than', [int(intensity), int(speed)])
+
+
 def handle_go_until_color(mqtt_sender, color):
     print('go until color using the color:  ', color)
     mqtt_sender.send_message('go_until_color', [color])

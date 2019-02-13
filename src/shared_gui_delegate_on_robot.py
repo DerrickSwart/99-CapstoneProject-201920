@@ -81,7 +81,7 @@ class Handler(object):
                 break
         self.robot.arm_and_claw.raise_arm()
     def m1_pick_up_using_pixy(self, initial_rate, rate_increase, direction):
-        print('recieved m1 pick up using pixycam', initial_rate, rate_increase)
+        print('recieved m1 pick up using pixycam', int(initial_rate), int(rate_increase))
 
 
     def go_until_color(self, color, speed):
@@ -102,6 +102,35 @@ class Handler(object):
         if color == "Brown" or "brown":
             colornumber = 7
 
-        self.robot.drive_system.go_straight_until_color_is(colornumber, speed)
+        self.robot.drive_system.go_straight_until_color_is(colornumber, int(speed))
+
+    def go_straight_until_intensity_is_less_than(self, intensity, speed):
+        print('recieved go_straight_until_intensity_is_less_than', intensity)
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(int(intensity), int(speed))
+    def intensity_bigger_than(self, intensity, speed):
+        print('recieved go until intensity is bigger than', intensity, 'at speed', speed)
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(intensity,int(speed))
+    def go_until_color_is_not(self,color, speed):
+        colornumber = 0
+        print('recieved color', color)
+        if color == "Black" or "black":
+            colornumber = 1
+        if color == "Blue" or "blue":
+            colornumber = 2
+        if color == "Green" or "green":
+            colornumber = 3
+        if color == "Yellow" or "yellow":
+            colornumber = 4
+        if color == "Red" or "red":
+            colornumber = 5
+        if color == "White" or "white":
+            colornumber = 6
+        if color == "Brown" or "brown":
+            colornumber = 7
+        self.robot.drive_system.go_straight_until_color_is_not(colornumber,int(speed))
+    def go_until_distance_less_than(self,inches,speed):
+        self.robot.drive_system.go_forward_until_distance_is_less_than(int(inches), int(speed))
+    def backward_until_further_than(self,inches, speed):
+        self.robot.drive_system.go_backward_until_distance_is_greater_than(int(inches),int(speed))
 
 
