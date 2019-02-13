@@ -262,7 +262,7 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         my_sensor = SensorSystem()
-        while my_sensor.beacon_seeker.distance >= inches:
+        while my_sensor.beacon_seeker.distance >= inches+15:
             continue
         self.stop()
 
