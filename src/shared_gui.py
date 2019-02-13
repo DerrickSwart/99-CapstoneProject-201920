@@ -290,7 +290,7 @@ def ir_control(window, mqtt_sender):
     intensity_entry.grid(row = 4, column = 0)
     intensity_label.grid(row = 4, column = 1)
 
-    
+
 
 
     go_until_color_label.grid(row = 3, column = 1)
