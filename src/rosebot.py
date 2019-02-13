@@ -224,7 +224,7 @@ class DriveSystem(object):
         while abs(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches) >= delta:
             if my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches > delta:
                 self.go_forward_until_distance_is_less_than(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches , speed)
-            elif my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches < 0:
+            elif my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches < -1*delta:
                 self.go_backward_until_distance_is_greater_than(my_sensor.ir_proximity_sensor.get_distance_in_inches() - inches, speed)
         self.stop()
 
@@ -235,16 +235,24 @@ class DriveSystem(object):
     def spin_clockwise_until_beacon_heading_is_nonnegative(self, speed):
         """
               Spins clockwise at the given speed until the heading to the Beacon
-              is nonnegative.  Requires that the user turn on the Beacon.
+              is nonnegative. Requires that the user turn on the Beacon.
               """
-        pass
+        self.go(speed, -1*speed)
+        my_sensor = SensorSystem()
+        while my_sensor.ir_beacon_sensor.get_heading_to_beacon() > 0 :
+            continue
+        self.stop()
 
     def spin_counterclockwise_until_beacon_heading_is_nonpositive(self, speed):
         """
                Spins counter-clockwise at the given speed until the heading to the Beacon
                is nonnegative.  Requires that the user turn on the Beacon.
                """
-        pass
+        self.go(-1* speed,speed)
+        my_sensor = SensorSystem()
+        while my_sensor.ir_beacon_sensor.get_heading_to_beacon() < 0:
+            continue
+        self.stop()
 
     def go_straight_to_the_beacon(self, speed):
          """
@@ -252,7 +260,7 @@ class DriveSystem(object):
             given number of inches from the Beacon.
             Assumes that the Beacon is turned on and placed straight ahead.
          """
-         pass
+
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the camera.
@@ -377,7 +385,7 @@ class SensorSystem(object):
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.camera = Camera()
-        # self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =
 
@@ -417,7 +425,8 @@ class LEDSystem(object):
 #    BeaconSystem
 ###############################################################################
 class BeaconSystem(object):
-    pass
+    def __init__(self):
+        self.beacon = ev3.BeaconSeeker()
 
 
 ###############################################################################
