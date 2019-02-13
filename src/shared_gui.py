@@ -276,12 +276,18 @@ def ir_control(window, mqtt_sender):
     frame_label = ttk.Label(frame, text = 'IR Robot Control')
     frame_label.grid(row=0, column=0)
 
+    speed_entry = ttk.Entry(frame, width = 8)
+    speed_entry_label = ttk.Label(frame, text = 'enter speed here for all functions below')
+    speed_entry.grid(row = 0, column = 0)
+    speed_entry_label.grid(row = 0, column = 1)
+
     go_until_color_entry = ttk.Entry(frame, width = 8)
     go_until_color_label = ttk.Label(frame, text = 'color to stop at')
     go_until_color_button = ttk.Button(frame, text = 'go until color')
 
-    go_until_color_label.grid(row = 1, column = 1)
-    go_until_color_entry.grid(row = 1, column = 0)
+
+    go_until_color_label.grid(row = 1, column = 0)
+    go_until_color_entry.grid(row = 2, column = 0)
     go_until_color_button.grid(row = 1, column = 2)
     go_until_color_button['command']= lambda: handle_go_until_color(mqtt_sender, go_until_color_entry.get())
 
