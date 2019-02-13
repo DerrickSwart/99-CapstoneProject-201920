@@ -238,8 +238,7 @@ class DriveSystem(object):
               is nonnegative. Requires that the user turn on the Beacon.
               """
         self.go(speed, -1*speed)
-        my_sensor = SensorSystem()
-        while my_sensor.ir_beacon_sensor.get_heading_to_beacon() > 0 :
+        while self.sensor_system.ir_beacon_sensor.get_heading_to_beacon() > 0 :
             continue
         self.stop()
 
@@ -249,8 +248,7 @@ class DriveSystem(object):
                is nonnegative.  Requires that the user turn on the Beacon.
                """
         self.go(-1* speed,speed)
-        my_sensor = SensorSystem()
-        while my_sensor.ir_beacon_sensor.get_heading_to_beacon() < 0:
+        while self.sensor_system.ir_beacon_sensor.get_heading_to_beacon() < 0:
             continue
         self.stop()
 
@@ -261,8 +259,7 @@ class DriveSystem(object):
             Assumes that the Beacon is turned on and placed straight ahead.
         """
         self.go(speed, speed)
-        my_sensor = SensorSystem()
-        while my_sensor.ir_beacon_sensor.get_distance_to_beacon() >= inches+15:
+        while self.sensor_system.ir_beacon_sensor.get_distance_to_beacon() >= inches+15:
             continue
         self.stop()
 
