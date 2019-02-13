@@ -23,7 +23,11 @@ def main():
     #run_test_arm()
     #move_arm_to_position()
     #lower_arm()
-
+    #go_straight_until_dark()
+    #go_straight_color_is()
+    #proximity()
+    #beacon()
+    #camera()
 def run_test_arm():
     robot = rosebot.RoseBot()
     robot.arm_and_claw.raise_arm()
@@ -57,6 +61,24 @@ def go_straight_encoder():
 def go_straight_time():
     robot = rosebot.RoseBot()
     robot.drive_system.go_straight_for_inches_using_time(50, 50)
+def go_straight_until_dark():
+    robot = rosebot.RoseBot()
+    robot.drive_system.go_straight_until_intensity_is_greater_than(30, 50)
+def go_straight_color_is():
+    robot = rosebot.RoseBot()
+    robot.drive_system.go_straight_until_color_is_not(1, 50)
+
+def proximity():
+    robot = rosebot.RoseBot()
+    robot.drive_system.go_until_distance_is_within(1, 15, 50)
+
+def beacon():
+    robot= rosebot.RoseBot()
+    robot.drive_system.go_straight_to_the_beacon(8, 50)
+
+def camera():
+    robot = rosebot.RoseBot()
+    robot.drive_system.spin_counterclockwise_until_sees_object(50, 200)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

@@ -270,21 +270,34 @@ class DriveSystem(object):
         Displays on the GUI the Blob data of the Blob that the camera sees
         (if any).
         """
-
+        blob =self.sensor_system.camera.get_biggest_blob()
+        print(blob)
     def spin_clockwise_until_sees_object(self, speed, area):
         """
         Spins clockwise at the given speed until the camera sees an object
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-
+        self.go(speed, -1*speed)
+        while True:
+            blob = self.sensor_system.camera.get_biggest_blob()
+            blobarea = blob.width*blob.height
+            if blobarea >= area:
+                break
+        self.stop()
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
         Spins counter-clockwise at the given speed until the camera sees an object
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-
+        self.go(-1*speed, speed)
+        while True:
+            blob = self.sensor_system.camera.get_biggest_blob()
+            blobarea = blob.width * blob.height
+            if blobarea >= area:
+                break
+        self.stop()
 
 ###############################################################################
 #    ArmAndClaw
