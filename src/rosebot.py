@@ -37,7 +37,7 @@ class RoseBot(object):
         # self.led_system = LEDSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
-        # self.beacon_system = BeaconSystem()
+        self.beacon_system = BeaconSystem()
         # self.display_system = DisplaySystem()
 
 
@@ -265,7 +265,6 @@ class DriveSystem(object):
         while my_sensor.ir_beacon_sensor.get_distance_to_beacon() >= inches:
             continue
         self.stop()
-
 
 
     # -------------------------------------------------------------------------
