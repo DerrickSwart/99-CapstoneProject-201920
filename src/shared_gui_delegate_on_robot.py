@@ -84,8 +84,8 @@ class Handler(object):
                 break
             wait_time = int(initial_time) * ((float(rate_increase)/100) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
         self.robot.arm_and_claw.raise_arm()
-    def m1_pick_up_using_pixy(self, initial_rate, rate_increase, direction):
-        print('recieved m1 pick up using pixycam', int(initial_rate), int(rate_increase))
+    def m1_pick_up_using_pixy(self, speed, direction, initial_value, rate_entry,function):
+
 
 
     def go_until_color(self, color, speed):

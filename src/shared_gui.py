@@ -357,7 +357,7 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
     direction_box_label.grid(row = 2, column = 0)
     direction_box.grid(row = 2, column = 1)
 
-    initial_button_label = ttk.Label(frame, text="enter initial beeping rate")
+    initial_button_label = ttk.Label(frame, text="enter initial value")
     initial_button_entry = ttk.Entry(frame, width=8)
 
     initial_button_entry.grid(row=3, column=1)
@@ -369,7 +369,16 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
     rate_entry.grid(row=4, column=1)
     rate_label.grid(row=4, column=0)
 
+    which_to_run_entry = ttk.Entry(frame, width = 8)
+    which_to_run_entry_label = ttk.Label(frame, text = 'enter beep, LED, or tone to call that function')
 
+    which_to_run_entry.grid(row = 5, column = 1)
+    which_to_run_entry_label.grid(row = 5, column = 0)
+
+    run_button = ttk.Button(frame, text = 'run')
+    run_button['command'] = lambda: handle_m1_pick_up_using_pixy(mqtt_sender,scale.get(), direction_box.get(),
+                                                                 initial_button_entry.get(), rate_entry.get(),
+                                                                 which_to_run_entry.get())
 
 
 
@@ -401,10 +410,8 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
-def speed_test(speed):
-    print(speed)
-
-
+def handle_m1_pick_up_using_pixy(mqtt_sender, speed, direction, initial_value, rate_entry,function):
+    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction, initial_value, rate_entry,function])
 
 def handle_go_until_distance_within(mqtt_sender, range_entry, inches_entry, speed_entry):
     print('go until within',range_entry, 'inches of', inches_entry, 'at speed', speed_entry)
@@ -430,9 +437,6 @@ def handle_go_until_intensity_less_than(mqtt_sender, intensity, speed):
 def handle_go_until_color(mqtt_sender, color, speed):
     print('go until color using the color:  ', color)
     mqtt_sender.send_message('go_until_color', [color,speed])
-def handle_m1_pick_up_using_pixy(mqtt_sender, speed, initial_button_entry, rate_entry, direction):
-    print('pick up using pixycam', initial_button_entry, rate_entry)
-    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, initial_button_entry, rate_entry, direction])
 
 def handle_m1_pick_up_using_prox(mqtt_sender, initial_button_entry, rate_entry):
     print('m1 pick up using prox', initial_button_entry, rate_entry)
