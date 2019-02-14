@@ -106,6 +106,8 @@ class Handler(object):
                     break
         if function == 'beep':
             self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
+        if function == 'LED':
+            self.m3_grab_object_with_LED(int(initial_value), float(rate_entry))
 
 
 
