@@ -82,7 +82,9 @@ class Handler(object):
                 print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
                 self.robot.drive_system.stop()
                 break
-            wait_time = int(initial_time) * ((float(rate_increase)/100) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
+            wait_time = wait_time - ((float(rate_increase)/100) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
+            if wait_time <=0:
+                wait_time = 0
         self.robot.arm_and_claw.raise_arm()
     def m1_pick_up_using_pixy(self, speed, direction, initial_value, rate_entry,function):
         if direction == 'CCW':
