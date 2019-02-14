@@ -164,9 +164,35 @@ class Handler(object):
     def go_until_within_distance(self,delta, inches, speed):
         self.robot.drive_system.go_until_distance_is_within(int(delta),int(inches),int(speed))
 
-    def m3_grab_object_with_LED(self, time, increase):
+    def m3_grab_object_LED(self, start_time, increase):
+
         self.robot.arm_and_claw.calibrate_arm()
-        self.robot.drive_system.go(20,20)
+        self.robot.drive_system.go(20, 20)
+        led = 1
+        wait_time = int(start_time)
+        while self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() > 0.25:
+            if led == 1:
+                self.robot.led_system.left_led.turn_on()
+                time.sleep(wait_time)
+            if led == 2:
+                self.robot.led_system.left_led.turn_off()
+                self.robot.led_system.right_led.turn_on()
+                time.sleep(wait_time)
+            if led == 3:
+                self.robot.led_system.left_led.turn_on()
+                time.sleep(wait_time)
+            if led == 4:
+                self.robot.led_system.right_led.turn_off()
+                self.robot.led_system.left_led.turn_off()
+                time.sleep(wait_time)
+            if led == 4:
+                led = 0
+            led = led + 1
+            wait_time = int(start_time) * (
+                    (float(increase) / 500) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
+
+        self.robot.drive_system.stop()
+        self.robot.arm_and_claw.raise_arm()
 
     def turn_counterclockwise_until_area_is(self,speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, area)
