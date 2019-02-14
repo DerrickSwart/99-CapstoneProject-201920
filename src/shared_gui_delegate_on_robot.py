@@ -91,13 +91,11 @@ class Handler(object):
             self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
         if direction == 'CW':
             self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
-        if direction != 'CCW' or 'CW':
-            print('please enter CCW or CW for direction')
-            exit()
+
         while True:
             blob = self.robot.sensor_system.camera.get_biggest_blob()
             if blob.center.x < (320/2):
-                self.robot.drive_system.go_until_distance_is_within(20,-20)
+                self.robot.drive_system.go(20,-20)
                 if blob.center.x > (320/2):
                     self.stop()
                     break
@@ -109,10 +107,8 @@ class Handler(object):
         if function == 'beep':
             self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
         if function == 'LED':
-            self.m3_grab_object_with_LED(int(initial_value), float(rate_entry))
+            self.m3_grab_object_LED(int(initial_value), float(rate_entry))
         #if function == 'tone':
-
-
 
 
     def go_until_color(self, color, speed):
@@ -190,13 +186,39 @@ class Handler(object):
             if led == 4:
                 led = 0
             led = led + 1
-            wait_time = int(start_time) * (
-                    (float(increase) / 500) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
+            wait_time = wait_time - (
+                        float(increase) / (self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() + 5))
+            if wait_time <= 0:
+                wait_time = 0
 
         self.robot.drive_system.stop()
         self.robot.arm_and_claw.raise_arm()
 
+    def m3_pick_up_pixy(self, speed, direction, initial_value, rate_entry, function):
+        if direction == 'CCW':
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
+        if direction == 'CW':
+            self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
+
+        while True:
+            blob = self.robot.sensor_system.camera.get_biggest_blob()
+            if blob.center.x < (320/2):
+                self.robot.drive_system.go(20,-20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+            if blob.center.x > (320/2):
+                self.robot.drive_system.go(-20,20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+        if function == 'beep':
+            self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
+        if function == 'LED':
+            self.m3_grab_object_LED(int(initial_value), float(rate_entry))
+        #if function == 'tone':
+
     def turn_counterclockwise_until_area_is(self,speed, area):
-        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, area)
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
     def turn_clockwise_until_area_is(self,speed, area):
-        self.robot.drive_system.spin_clockwise_until_sees_object(speed,area)
+        self.robot.drive_system.spin_clockwise_until_sees_object(int(speed),int(area))

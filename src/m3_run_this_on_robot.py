@@ -10,6 +10,7 @@ import mqtt_remote_method_calls as com
 import time
 import shared_gui_delegate_on_robot
 
+
 def main():
     """
     This code, which must run on the EV3 ROBOT:
@@ -28,6 +29,8 @@ def main():
     #proximity()
     #beacon()
     #camera()
+    #LED()
+    #m3_grab_object_LED(1, 1)
 def run_test_arm():
     robot = rosebot.RoseBot()
     robot.arm_and_claw.raise_arm()
@@ -78,10 +81,50 @@ def beacon():
 
 def camera():
     robot = rosebot.RoseBot()
-    robot.drive_system.spin_counterclockwise_until_sees_object(50, 200)
+    robot.drive_system.spin_counterclockwise_until_sees_object(50, 400)
 def LED():
     robot = rosebot.RoseBot()
-    robot.
+    robot.led_system.left_led.turn_on()
+    robot.led_system.right_led.turn_on()
+    time.sleep(5)
+    robot.led_system.left_led.turn_off()
+    robot.led_system.right_led.turn_off()
+    time.sleep(5)
+    robot.led_system.left_led.turn_on()
+    time.sleep(2)
+    robot.led_system.left_led.turn_off()
+
+def m3_grab_object_LED(start_time, increase):
+   robot = rosebot.RoseBot()
+   robot.arm_and_claw.calibrate_arm()
+   robot.drive_system.go(20, 20)
+   led = 1
+   wait_time = int(start_time)
+   while robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() > 0.25:
+        if led == 1:
+            robot.led_system.left_led.turn_on()
+            time.sleep(wait_time)
+        if led == 2:
+            robot.led_system.left_led.turn_off()
+            robot.led_system.right_led.turn_on()
+            time.sleep(wait_time)
+        if led == 3:
+            robot.led_system.left_led.turn_on()
+            time.sleep(wait_time)
+        if led == 4:
+            robot.led_system.right_led.turn_off()
+            robot.led_system.left_led.turn_off()
+            time.sleep(wait_time)
+        if led == 4:
+            led = 0
+        led = led + 1
+        wait_time = wait_time - (float(increase)/ (robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()+5))
+        if wait_time <= 0:
+            wait_time = 0
+   robot.drive_system.stop()
+   robot.arm_and_claw.raise_arm()
+
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

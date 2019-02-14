@@ -47,7 +47,9 @@ def main():
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # TODO: Implement and call get_my_frames(...)
-
+    pick_up_prox_frame, pick_up_pixy_frame = get_my_frames(frame, mqtt_sender)
+    pick_up_prox_frame.grid(row=2, column = 1)
+    pick_up_pixy_frame.grid(row=3,column = 1)
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
@@ -77,7 +79,10 @@ def grid_frames(teleop_frame, arm_frame, control_frame, go_for_frame, make_sound
     make_sounds.grid(row = 4, column = 0)
     ir_frame.grid(row=0, column = 1)
     proximity_control_frame.grid(row=1, column = 1)
-
+def get_my_frames(frame, mqtt_sender):
+    pick_up_prox_frame= shared_gui.m3_pick_up_prox_frame(frame, mqtt_sender)
+    pick_up_pixy_frame = shared_gui.m3_pick_up_pixy_frame(frame, mqtt_sender)
+    return pick_up_prox_frame, pick_up_pixy_frame
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
