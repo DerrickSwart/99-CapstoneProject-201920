@@ -380,22 +380,38 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
                                                                  initial_button_entry.get(), rate_entry.get(),
                                                                  which_to_run_entry.get())
     run_button.grid(row = 7, column = 0)
+    return frame
 
 
+def camara_conrtol_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
 
+    frame_label = ttk.Label(frame, text='camara control')
+    frame_label.grid(row=0, column=0)
 
+    speed_entry = ttk.Entry(frame, width=8)
+    speed_entry_label = ttk.Label(frame, text='enter speed, 0-100')
+    speed_entry.grid(row=1, column=0)
+    speed_entry_label.grid(row=1, column=1)
 
+    area_entry = ttk.Entry(frame, width=8)
+    area_entry_label = ttk.Label(frame, text='enter speed, 0-100')
+    area_entry.grid(row=2, column=0)
+    area_entry_label.grid(row=2, column=1)
 
-
-
-
-
-
-
-
-
+    clockwise_button = ttk.Button(frame, text='turn clockwise')
+    counterclockwise_button = ttk.Button(frame, text=' turn counterclockwise')
+    clockwise_button['command'] = lambda: handle_turn_clockwise_using_pixy(mqtt_sender, speed_entry.get(),
+                                                                               area_entry.get())
+    counterclockwise_button['command'] = lambda: handle_turn_counterclockwise_using_pixy(mqtt_sender,
+                                                                                             speed_entry.get(),
+                                                                                             area_entry.get())
+    clockwise_button.grid(row=1, column=3)
+    counterclockwise_button.grid(row=2, column=3)
 
     return frame
+
 
 
 
@@ -411,6 +427,14 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+def handle_turn_clockwise_using_pixy(mqtt_sender, speed_entry, area_entry):
+    print('turn clockwise with speed', speed_entry, 'until area', area_entry)
+    mqtt_sender.send_message('turn_clockwise_until_area_is', [speed_entry, area_entry])
+
+def handle_turn_counterclockwise_using_pixy(mqtt_sender, speed_entry, area_entry):
+    print('turn counterclockwise with speed', speed_entry, 'until area', area_entry)
+    mqtt_sender.send_message('turn_counterclockwise_until_area_is', [speed_entry, area_entry])
+
 def handle_m1_pick_up_using_pixy(mqtt_sender, speed, direction, initial_value, rate_entry,function):
     print(speed, direction, initial_value, rate_entry,function)
     mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction, initial_value, rate_entry,function])
