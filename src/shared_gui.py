@@ -374,8 +374,8 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
     frame_label = ttk.Label(frame, text= 'm1 find and pickup an object using pixy')
     frame_label.grid(row = 0, column = 0)
 
-    scale = ttk.Scale(frame, from_=0, to=100)
-    speed_label = ttk.Label(frame, text = 'speed from 0-100 respectivly')
+    scale = ttk.Scale(frame, from_=10, to=100)
+    speed_label = ttk.Label(frame, text = 'speed from 10-100 respectivly')
     speed_label.grid(row = 1, column = 0)
     scale.grid(row = 1, column = 1)
 
