@@ -264,29 +264,30 @@ def M1_pick_up_objects(window, mqtt_sender):
     return frame
 
 def m3_pick_up_prox_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='ridge')
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='raised')
     frame.grid()
 
-    frame_label = ttk.Label(frame, text='Pick Up object Using Proximity')
-    frame_label.grid(row=0, column=1)
+    frame_label = ttk.Label(frame, text='Find object using proximity sensor')
+    frame_label.grid(row=0, column=0)
 
     run_button = ttk.Button(frame, text="Run Pick up using proximity")
     initial_button_label = ttk.Label(frame, text="enter initial blinking rate")
-    initial_button_entry = ttk.Entry(frame, width=8)
+    initial_button_entry = ttk.Entry(frame, width=10)
+
+
+    increase_entry = ttk.Entry(frame, width=10)
+    increase_label = ttk.Label(frame, text='rate of blinking increase(between 1 and 2)')
+
+    increase_entry.grid(row=4, column=0)
+    increase_label.grid(row=3, column=0)
+
+    run_button.grid(row=5, column=0)
 
     initial_button_entry.grid(row=2, column=0)
     initial_button_label.grid(row=1, column=0)
 
-    rate_entry = ttk.Entry(frame, width=8)
-    rate_label = ttk.Label(frame, text='rate of increase')
-
-    rate_entry.grid(row=2, column=2)
-    rate_label.grid(row=1, column=2)
-
-    run_button.grid(row=3, column=1)
-
     run_button['command'] = lambda: handle_m3_pick_up_prox(mqtt_sender, initial_button_entry.get(),
-                                                                 rate_entry.get())
+                                                                 increase_entry.get())
     return frame
 def ir_control(window, mqtt_sender):
     frame = ttk.Frame(window, padding = 10, borderwidth = 5, relief = 'ridge')
@@ -409,44 +410,44 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
     return frame
 
 def m3_pick_up_pixy_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='groove')
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief='raised')
     frame.grid()
-    frame_label = ttk.Label(frame, text='m1 find and pickup an object using pixy')
-    frame_label.grid(row=0, column=0)
+    frame_label = ttk.Label(frame, text='m3 find and pickup an object using PixyCam')
+    frame_label.grid(row=0, column=1)
 
-    scale = ttk.Entry(frame, width = 8)
+    speed_entry = ttk.Entry(frame, width = 10)
     speed_label = ttk.Label(frame, text='speed from 0-100 respectivly')
-    speed_label.grid(row=1, column=0)
-    scale.grid(row=1, column=1)
 
-    direction_box = ttk.Entry(frame, width=8)
-    direction_box_label = ttk.Label(frame, text='enter direction, CCW or CW')
+    direction_box = ttk.Entry(frame, width=10)
+    direction_box_label = ttk.Label(frame, text='enter direction(CCW or CW)')
+
+
+    initial_button_label = ttk.Label(frame, text="enter initial beeping, blinking, or pitch rate")
+    initial_button_entry = ttk.Entry(frame, width=10)
+
+    increase_entry = ttk.Entry(frame, width=10)
+    increase_label = ttk.Label(frame, text='rate of increase')
+
+    which_to_run_entry = ttk.Entry(frame, width=10)
+    which_to_run_entry_label = ttk.Label(frame, text='enter beep, LED, or tone')
+
+
+    speed_label.grid(row=1, column=0)
+    speed_entry.grid(row=1, column=1)
     direction_box_label.grid(row=2, column=0)
     direction_box.grid(row=2, column=1)
+    initial_button_entry.grid(row=1, column=3)
+    initial_button_label.grid(row=1, column=2)
+    increase_entry.grid(row=2, column=3)
+    increase_label.grid(row=2, column=2)
+    which_to_run_entry.grid(row=3, column=1)
+    which_to_run_entry_label.grid(row=3, column=0)
 
-    initial_button_label = ttk.Label(frame, text="enter initial value")
-    initial_button_entry = ttk.Entry(frame, width=8)
-
-    initial_button_entry.grid(row=3, column=1)
-    initial_button_label.grid(row=3, column=0)
-
-    rate_entry = ttk.Entry(frame, width=8)
-    rate_label = ttk.Label(frame, text='rate of increase')
-
-    rate_entry.grid(row=4, column=1)
-    rate_label.grid(row=4, column=0)
-
-    which_to_run_entry = ttk.Entry(frame, width=8)
-    which_to_run_entry_label = ttk.Label(frame, text='enter beep, LED, or tone to call that function')
-
-    which_to_run_entry.grid(row=5, column=1)
-    which_to_run_entry_label.grid(row=5, column=0)
-
-    run_button = ttk.Button(frame, text='run')
-    run_button['command'] = lambda: handle_m3_pick_up_pixy(mqtt_sender, scale.get(), direction_box.get(),
-                                                                 initial_button_entry.get(), rate_entry.get(),
+    start_button = ttk.Button(frame, text='Start')
+    start_button['command'] = lambda: handle_m3_pick_up_pixy(mqtt_sender, speed_entry.get(), direction_box.get(),
+                                                                 initial_button_entry.get(), increase_entry.get(),
                                                                  which_to_run_entry.get())
-    run_button.grid(row=7, column=0)
+    start_button.grid(row=7, column=2)
     return frame
 
 def camara_conrtol_frame(window, mqtt_sender):

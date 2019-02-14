@@ -195,7 +195,7 @@ class Handler(object):
         self.robot.drive_system.stop()
         self.robot.arm_and_claw.raise_arm()
 
-    def m3_pick_up_pixy(self, speed, direction, initial_value, rate_entry, function):
+    def m3_pick_up_pixy(self, speed, direction, initial, increase_entry, choice):
         if direction == 'CCW':
             self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
         elif direction == 'CW':
@@ -203,22 +203,22 @@ class Handler(object):
 
         while True:
             blob = self.robot.sensor_system.camera.get_biggest_blob()
-            if blob.center.x < (320/2):
-                self.robot.drive_system.go(20,-20)
-                if blob.center.x > (320/2):
+            if blob.center.x < 160:
+                self.robot.drive_system.go(30,-30)
+                if blob.center.x > 160:
                     self.stop()
                     break
-            if blob.center.x > (320/2):
-                self.robot.drive_system.go(-20,20)
-                if blob.center.x > (320/2):
+            if blob.center.x > 160:
+                self.robot.drive_system.go(-30,30)
+                if blob.center.x > 160:
                     self.stop()
                     break
-        if function == 'beep':
-            self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
-        if function == 'LED':
-            self.m3_grab_object_LED(int(initial_value), float(rate_entry))
-        if function == 'tone':
-            self.m2_go_forward_tone(float(initial_value), float(rate_entry))
+        if choice == 'beep':
+            self.m1_pick_up_using_prox(float(initial), float(increase_entry))
+        if choice == 'LED':
+            self.m3_grab_object_LED(float(initial), float(increase_entry))
+        if choice == 'tone':
+            self.m2_go_forward_tone(float(initial), float(increase_entry))
 
     def turn_counterclockwise_until_area_is(self,speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
