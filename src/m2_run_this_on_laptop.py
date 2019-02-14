@@ -51,6 +51,8 @@ def main():
     # -------------------------------------------------------------------------
     m2_tone_frame = shared_gui.m2_tone_frame(main, mqqt_sender)
     m2_tone_frame.grid(column=1, row=1)
+    m2_pixy_frame = shared_gui.m2_pixy_cam(main, mqqt_sender)
+    m2_pixy_frame.grid(column=1, row=2)
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------

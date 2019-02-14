@@ -89,7 +89,7 @@ class Handler(object):
     def m1_pick_up_using_pixy(self, speed, direction, initial_value, rate_entry,function):
         if direction == 'CCW':
             self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
-        if direction == 'CW':
+        elif direction == 'CW':
             self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
 
         while True:
@@ -198,7 +198,7 @@ class Handler(object):
     def m3_pick_up_pixy(self, speed, direction, initial_value, rate_entry, function):
         if direction == 'CCW':
             self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
-        if direction == 'CW':
+        elif direction == 'CW':
             self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
 
         while True:
@@ -236,3 +236,27 @@ class Handler(object):
                 self.stop()
                 self.robot.arm_and_claw.move_arm_to_position(5000)
                 break
+    def m2_pick_up_pixy(self, speed, direction, initial_value, rate_entry, function):
+        if direction == 'CCW':
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
+        elif direction == 'CW':
+            self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
+
+        while True:
+            blob = self.robot.sensor_system.camera.get_biggest_blob()
+            if blob.center.x < (320/2):
+                self.robot.drive_system.go(20,-20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+            if blob.center.x > (320/2):
+                self.robot.drive_system.go(-20,20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+        if function == 'beep':
+            self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
+        if function == 'LED':
+            self.m3_grab_object_LED(int(initial_value), float(rate_entry))
+        if function == 'tone':
+            self.m2_go_forward_tone(float(initial_value), float(rate_entry))
