@@ -232,15 +232,13 @@ class Handler(object):
         while True:
             blob = self.robot.sensor_system.camera.get_biggest_blob()
             if blob.center.x < (320/2):
-                self.robot.drive_system.go(20,-20)
-                if blob.center.x > (320/2):
-                    self.stop()
-                    break
+                self.robot.drive_system.go(-20, 20)
             if blob.center.x > (320/2):
-                self.robot.drive_system.go(-20,20)
-                if blob.center.x > (320/2):
-                    self.stop()
-                    break
+                self.robot.drive_system.go(20,-20)
+            if abs(blob.center.x - (320/2)) < 4:
+                self.robot.drive_system.stop()
+                break
+
         if function == 'beep':
             self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
         if function == 'LED':
