@@ -108,7 +108,8 @@ class Handler(object):
             self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
         if function == 'LED':
             self.m3_grab_object_LED(int(initial_value), float(rate_entry))
-        #if function == 'tone':
+        if function == 'tone':
+            self.m2_go_forward_tone(float(initial_value), float(rate_entry))
 
 
     def go_until_color(self, color, speed):
@@ -216,7 +217,8 @@ class Handler(object):
             self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
         if function == 'LED':
             self.m3_grab_object_LED(int(initial_value), float(rate_entry))
-        #if function == 'tone':
+        if function == 'tone':
+            self.m2_go_forward_tone(float(initial_value), float(rate_entry))
 
     def turn_counterclockwise_until_area_is(self,speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))

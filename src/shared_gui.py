@@ -414,7 +414,7 @@ def m3_pick_up_pixy_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text='m1 find and pickup an object using pixy')
     frame_label.grid(row=0, column=0)
 
-    scale = ttk.Scale(frame, from_=0, to=100)
+    scale = ttk.Entry(frame, width = 8)
     speed_label = ttk.Label(frame, text='speed from 0-100 respectivly')
     speed_label.grid(row=1, column=0)
     scale.grid(row=1, column=1)
