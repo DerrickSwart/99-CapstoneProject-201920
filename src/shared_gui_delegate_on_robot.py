@@ -109,7 +109,7 @@ class Handler(object):
         if function == 'LED':
             self.m3_grab_object_with_LED(int(initial_value), float(rate_entry))
         if function == 'tone':
-            
+
 
 
 
