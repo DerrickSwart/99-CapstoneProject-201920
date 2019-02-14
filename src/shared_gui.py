@@ -498,27 +498,27 @@ def m2_tone_frame(window, mqtt_sender):
 def m2_pixy_cam(window, mqtt_sender):
     frame = ttk.Frame(window, relief = 'groove', borderwidth = 5, padding =10)
     frame.grid()
-    frame_label = ttk.Label(frame, text='m2 Use pixy to pickup')
+    frame_label = ttk.Label(frame, text='M2 USE PIXY TO LOCATE OBJECT')
     frame_label.grid(row=0, column=0)
 
-    scale = ttk.Entry(frame, width=8)
-    speed_label = ttk.Label(frame, text='speed from 0-100 respectivly')
-    speed_label.grid(row=1, column=0)
-    scale.grid(row=1, column=1)
+    scale = ttk.Label(frame, text = "Robot Speed from 0 - 100")
+    speed_slider = ttk.Scale(frame, from_=0, to=100)
+    speed_slider.grid(column= 1, row = 1)
+    scale.grid(row=1, column=0)
 
     direction_box = ttk.Entry(frame, width=8)
     direction_box_label = ttk.Label(frame, text='enter direction, CCW or CW')
     direction_box_label.grid(row=2, column=0)
     direction_box.grid(row=2, column=1)
 
-    initial_button_label = ttk.Label(frame, text="enter initial value")
-    initial_button_entry = ttk.Entry(frame, width=8)
+    initial_button_label = ttk.Label(frame, text="enter initial value scale 50 - 200")
+    initial_button_entry = ttk.Scale(frame, from_=50 , to=200)
 
     initial_button_entry.grid(row=3, column=1)
     initial_button_label.grid(row=3, column=0)
 
-    rate_entry = ttk.Entry(frame, width=8)
-    rate_label = ttk.Label(frame, text='rate of increase')
+    rate_entry = ttk.Scale(frame, from_=0 , to=200)
+    rate_label = ttk.Label(frame, text='Increase Rate from 0 - 200')
 
     rate_entry.grid(row=4, column=1)
     rate_label.grid(row=4, column=0)
@@ -530,7 +530,7 @@ def m2_pixy_cam(window, mqtt_sender):
     which_to_run_entry_label.grid(row=5, column=0)
 
     run_button = ttk.Button(frame, text='Enter Values')
-    run_button['command'] = lambda: m2_pixycam_pickup(mqtt_sender, scale.get(), direction_box.get(),
+    run_button['command'] = lambda: m2_pixycam_pickup(mqtt_sender, int(speed_slider.get()), direction_box.get(),
                                                            initial_button_entry.get(), rate_entry.get(),
                                                            which_to_run_entry.get())
     run_button.grid(row=7, column=0)
@@ -728,7 +728,7 @@ def m2_handle_forward_tone(mqtt_sender, frequency, rate):
     print('forward and tone')
     mqtt_sender.send_message("m2_go_forward_tone", [frequency, rate])
 def m2_pixycam_pickup(mqtt_sender, speed, direction, initial_value, rate_entry, function):
-    print('Got Pixy cam data')
+    print('Got Pixy cam data', speed)
     mqtt_sender.send_message("m2_pick_up_pixy", [speed, direction, initial_value, rate_entry, function])
 ###############################################################################
 # Handlers for Buttons in the Control frame.
