@@ -328,6 +328,7 @@ def ir_control(window, mqtt_sender):
     go_until_color_button['command']= lambda: handle_go_until_color(mqtt_sender, go_until_color_entry.get(), speed_entry.get())
 
     return frame
+
 def proximity_control_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief='ridge')
     frame.grid()
@@ -477,10 +478,21 @@ def camara_conrtol_frame(window, mqtt_sender):
 
     return frame
 
-
-
-
-
+def m2_tone_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, relief='groove', borderwidth=5, padding=10)
+    frame.grid()
+    init_label = ttk.Label(frame, text='Initial Frequency')
+    init_label.grid(column=0, row=0)
+    init_entry = ttk.Entry(frame, width=8)
+    init_entry.grid(column=0, row=1)
+    increase_label = ttk.Label(frame, text='Increase Rate')
+    increase_label.grid(column=1, row=0)
+    increase_entry = ttk.Entry(frame, width=8)
+    increase_entry.grid(column=1, row=1)
+    submit_button = ttk.Button(frame, text='Go Forward Beeping Faster')
+    submit_button.grid(rowspan=2)
+    submit_button['command'] = lambda: handle_forward_tone(mqtt_sender, init_entry.get(), increase_entry.get())
+    return frame
 
 ###############################################################################
 ###############################################################################
@@ -667,6 +679,12 @@ def handle_speak(mqtt_sender, speak_string):
     print('speak: ', speak_string)
     mqtt_sender.send_message("speak", [speak_string])
 
+##############
+#handle tone
+#############
+def handle_forward_tone(mqtt_sender, frequency, rate):
+    print('forward and tone')
+    mqtt_sender.send_message("m2_go_forward_tone", [frequency, rate])
 ###############################################################################
 # Handlers for Buttons in the Control frame.
 ###############################################################################

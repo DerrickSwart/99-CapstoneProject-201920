@@ -222,3 +222,15 @@ class Handler(object):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
     def turn_clockwise_until_area_is(self,speed, area):
         self.robot.drive_system.spin_clockwise_until_sees_object(int(speed),int(area))
+    def m2_go_forward_tone(self, frequency, rate):
+        print('got', frequency, rate)
+        self.robot.arm_and_claw.calibrate_arm()
+        self.robot.drive_system.go(50,50)
+        distance = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        while True:
+            self.robot.sound_system.tone_maker.play_tone(frequency,500)
+            frequency = (distance - self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()) * int(rate)
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 1:
+                self.stop()
+                self.robot.arm_and_claw.move_arm_to_position(5000)
+                break

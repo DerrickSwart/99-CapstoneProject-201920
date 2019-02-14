@@ -19,8 +19,7 @@ def main():
     """
 
     robot = rosebot.RoseBot()
-    #delegate = shared_gui_delegate_on_robot.Handler(robot)
-    delegate = my_handler(robot)
+    delegate = shared_gui_delegate_on_robot.Handler(robot)
     mqtt_receiver = com.MqttClient(delegate)
     mqtt_receiver.connect_to_pc()
 
@@ -29,20 +28,7 @@ def main():
         if delegate.is_time_to_stop:
             break
 
-class my_handler(object):
-    def __init__(self, robot):
-        self.robot = rosebot.RoseBot()
-        self.is_time_to_stop = False
-    def go_forward_tone(self, frequency, rate):
-        print('got', frequency, rate)
-        self.robot.drive_system.go(50,50)
-        distance = self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-        while True:
-            self.robot.sound_system.tone_maker.play_tone(frequency,500)
-            frequency = (distance - self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()) * rate
-            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 0.5:
-                self.robot.arm_and_claw.move_arm_to_position(3000)
-                break
+
 
 
 
