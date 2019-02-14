@@ -160,3 +160,6 @@ class Handler(object):
     def go_until_within_distance(self,delta, inches, speed):
         self.robot.drive_system.go_until_distance_is_within(int(delta),int(inches),int(speed))
 
+    def m3_grab_object_with_LED(self, time, increase):
+        self.robot.arm_and_claw.calibrate_arm()
+        self.robot.drive_system.go(20,20)

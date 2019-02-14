@@ -79,6 +79,9 @@ def beacon():
 def camera():
     robot = rosebot.RoseBot()
     robot.drive_system.spin_counterclockwise_until_sees_object(50, 200)
+def LED():
+    robot = rosebot.RoseBot()
+    robot.
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

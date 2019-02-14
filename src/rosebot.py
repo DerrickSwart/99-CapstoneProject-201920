@@ -34,7 +34,7 @@ class RoseBot(object):
         # Use these instance variables
         self.sensor_system = SensorSystem()
         self.sound_system = SoundSystem()
-        # self.led_system = LEDSystem()
+        self.led_system = LEDSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         # self.beacon_system = BeaconSystem()
