@@ -135,8 +135,8 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         my_sensor = SensorSystem()
-        while intensity > my_sensor.color_sensor.get_reflected_light_intensity():
-            continue
+        while intensity < my_sensor.color_sensor.get_reflected_light_intensity():
+            print(my_sensor.color_sensor.get_reflected_light_intensity())
         self.stop()
 
     def go_straight_until_intensity_is_greater_than(self, intensity, speed):
@@ -146,8 +146,8 @@ class DriveSystem(object):
         """
         self.go(speed, speed)
         my_sensor = SensorSystem()
-        while intensity < my_sensor.color_sensor.get_reflected_light_intensity():
-            continue
+        while int(intensity) > my_sensor.color_sensor.get_reflected_light_intensity():
+            print(my_sensor.color_sensor.get_reflected_light_intensity())
         self.stop()
 
     def go_straight_until_color_is(self, color, speed):
