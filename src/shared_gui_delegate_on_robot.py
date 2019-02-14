@@ -163,3 +163,8 @@ class Handler(object):
     def m3_grab_object_with_LED(self, time, increase):
         self.robot.arm_and_claw.calibrate_arm()
         self.robot.drive_system.go(20,20)
+
+    def turn_counterclockwise_until_area_is(self,speed, area):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, area)
+    def turn_clockwise_until_area_is(self,speed, area):
+        self.robot.drive_system.spin_clockwise_until_sees_object(speed,area)
