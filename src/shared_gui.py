@@ -396,7 +396,7 @@ def camara_conrtol_frame(window, mqtt_sender):
     speed_entry_label.grid(row=1, column=1)
 
     area_entry = ttk.Entry(frame, width=8)
-    area_entry_label = ttk.Label(frame, text='enter speed, 0-100')
+    area_entry_label = ttk.Label(frame, text='enter area of color')
     area_entry.grid(row=2, column=0)
     area_entry_label.grid(row=2, column=1)
 
