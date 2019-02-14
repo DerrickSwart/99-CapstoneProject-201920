@@ -85,6 +85,27 @@ class Handler(object):
             wait_time = int(initial_time) * ((float(rate_increase)/100) * self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches())
         self.robot.arm_and_claw.raise_arm()
     def m1_pick_up_using_pixy(self, speed, direction, initial_value, rate_entry,function):
+        if direction == 'CCW':
+            self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
+        if direction == 'CW':
+            self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
+        if direction != 'CCW' or 'CW':
+            print('please enter CCW or CW for direction')
+            exit()
+        while True:
+            blob = self.robot.sensor_system.camera.get_biggest_blob()
+            if blob.center.x < (320/2):
+                self.robot.drive_system.go_until_distance_is_within(20,-20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+            if blob.center.x > (320/2):
+                self.robot.drive_system.go(-20,20)
+                if blob.center.x > (320/2):
+                    self.stop()
+                    break
+        if function == 'beep':
+            self.m1_pick_up_using_prox(float(initial_value), float(rate_entry))
 
 
 

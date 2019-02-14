@@ -379,6 +379,7 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
     run_button['command'] = lambda: handle_m1_pick_up_using_pixy(mqtt_sender,scale.get(), direction_box.get(),
                                                                  initial_button_entry.get(), rate_entry.get(),
                                                                  which_to_run_entry.get())
+    run_button.grid(row = 7, column = 0)
 
 
 
@@ -411,6 +412,7 @@ def m1_find_with_pixy_using_color(window, mqtt_sender):
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
 def handle_m1_pick_up_using_pixy(mqtt_sender, speed, direction, initial_value, rate_entry,function):
+    print(speed, direction, initial_value, rate_entry,function)
     mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction, initial_value, rate_entry,function])
 
 def handle_go_until_distance_within(mqtt_sender, range_entry, inches_entry, speed_entry):
