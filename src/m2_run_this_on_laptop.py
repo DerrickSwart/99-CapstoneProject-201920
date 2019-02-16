@@ -49,12 +49,16 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    ball_boy = ball_boy_frame(main, mqqt_sender)
-    ball_boy.grid(column=0, row=0)
-    m2_tone_frame = shared_gui.m2_tone_frame(main, mqqt_sender)
-    m2_tone_frame.grid(column=1, row=1)
-    m2_pixy_frame = shared_gui.m2_pixy_cam(main, mqqt_sender)
-    m2_pixy_frame.grid(column=1, row=2)
+    fetch_ball = fetch_ball_frame(main, mqqt_sender)
+    fetch_ball.grid(row=0, sticky = W)
+
+    deliver = deliver_ball(main, mqqt_sender)
+    deliver.grid(sticky=W, row=1)
+
+    #m2_tone_frame = shared_gui.m2_tone_frame(main, mqqt_sender)
+    #m2_tone_frame.grid(column=1, row=1)
+    #m2_pixy_frame = shared_gui.m2_pixy_cam(main, mqqt_sender)
+    #m2_pixy_frame.grid(column=1, row=2)
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
@@ -77,7 +81,7 @@ def grid_frames(teleop_frame, arm_frame, control_frame, make_sounds, ir_control)
     make_sounds.grid(column=0, row=4)
     ir_control.grid(column=1, row=0)
 
-def ball_boy_frame(root_frame, mqtt_sender):
+def fetch_ball_frame(root_frame, mqtt_sender):
     """
     Side Effects: Creates a beautiful GUI frame for the user to control the EV3 Robot
     It includes calling methods that make the robot act as fetcher for tennis balls
@@ -88,7 +92,6 @@ def ball_boy_frame(root_frame, mqtt_sender):
     """
     frame = Frame(root_frame, relief = 'groove', borderwidth = 10)
     frame.grid()
-
     #Set robot speed
     fetch_label = Label(frame, text = 'Set Fetch Speed of Robot:')
     fetch_label.grid(row=0, column=0)
@@ -97,21 +100,63 @@ def ball_boy_frame(root_frame, mqtt_sender):
     fetch_speed.grid(row=0, column =1)
 
     speak_label = Label(frame, text="Enter a tennis phrase: ")
-    speak_label.grid(row=1, column=0)
+    speak_label.grid(row=1, sticky=W)
+
     speak_entry = Entry(frame, width = 40)
     speak_entry.grid(row=1, column = 1)
 
-    fetch_button = Button(frame, text="Run Fetch Ball", activebackground = 'white')
-    fetch_button.grid(rowspan=2 )
-
-
-
+    fetch_button = Button(frame, text="Run Fetch Ball", activebackground = 'white', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry.get()))
+    fetch_button.grid(rowspan=2 , sticky=W)
 
     return frame
 
+def deliver_ball(root, mqtt_sender):
+    """
+    Side Effects: Creates a beautiful GUI frame for the user to control the EV3 Robot
+    It includes calling methods that make the robot act as fetcher for tennis balls
+
+    :param root: tkinter frame
+    :param mqtt_sender:  mqtt object
+    :return: tkinter frame
+    """
+    frame = Frame(root, relief = 'groove', borderwidth = 10)
+    frame.grid()
+
+    deliver_label = Label(frame, text = "Deliver the ball, then go back to original position")
+    deliver_label.grid(row=0, column=0)
+
+    slider_label = Label(frame, text="Delivery & return speed: ")
+    slider_label.grid(sticky=W, row=1)
+
+    speed_slider = Scale(frame, from_=5, to=100, orient = HORIZONTAL, length =220)
+    speed_slider.grid(column=1, row=1)
+
+    deliver_button = Button(frame, text = "Deliver and Return",borderwidth = 5, command = lambda: handle_deliver_return(mqtt_sender, speed_slider.get()))
+    deliver_button.grid(row = 2, sticky=W)
+
+    return frame
+
+
 def handle_fetch_ball(mqtt_sender, speed, speak):
+    """
+    Side Effects: Sends an mqtt message to the robot with the passed in data
+    :param mqtt_sender: mqtt object
+    :param speed: string
+    :param speak: string
+    :return: Nothing
+    """
     print('sending: ', speed, speak)
     mqtt_sender.send_message("m2_fetch_ball", [speed, speak])
+
+def handle_deliver_return(mqtt_sender, speed):
+    """
+    Side Effects: Sends an mqtt message to the robot with the passed in data
+    :param mqtt_sender: mqtt object
+    :param speed: string
+    :return: Nothing
+    """
+    print('handling deliver and return', speed)
+    mqtt_sender.send_message("m2_deliver_return", [speed])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

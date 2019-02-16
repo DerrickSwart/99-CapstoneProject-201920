@@ -9,14 +9,16 @@
 import time
 import m2_extras as m2
 
-class Handler(object):
+class Handler(m2.m2_handler):
     def __init__(self, robot):
         '''
 
         :type robot: rosebot.RoseBot
         '''
+        m2.m2_handler.__init__(self, robot) # This line allows inheritance from class methods in m2_extras.py file (Implemented by Joe)
         self.robot = robot
         self.is_time_to_stop = False
+
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed),
