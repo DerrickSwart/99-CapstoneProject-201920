@@ -23,10 +23,16 @@ def main():
     mqtt_receiver = com.MqttClient(delegate)
     mqtt_receiver.connect_to_pc()
 
+    mqtt_sender = com.MqttClient()
+    mqtt_sender.connect_to_pc()
+
+
     while True:
         time.sleep(0.01)
         if delegate.is_time_to_stop:
             break
+
+
 
 
 

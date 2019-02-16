@@ -13,6 +13,25 @@ from tkinter import ttk
 import shared_gui
 
 
+class laptop_delegate(object):
+    def __init__(self, frame):
+        self.frame = frame
+    def display_camera(self, blob):
+        """
+        Side Effects: Displays a circle on a canvas of where the tennis ball will be
+        :param blob: Blob
+        :return:Nothing
+        """
+        x0 = blob.center.x - (blob.width/2)
+        y0 = blob.center.y - (blob.height/2)
+        x1 = blob.center.x + (blob.width/2)
+        y1 = blob.center.y + (blob.height/2)
+
+        frame2 = Frame(self.frame, borderwidth = 5 , relief = 'groove')
+        canvas = Canvas(frame2, width = 319, height=199)
+        canvas.grid(row=0, sticky = E)
+        canvas.create_oval(x0, y0, x1, y1)
+
 def main():
     """
     This code, which must run on a LAPTOP:
@@ -24,17 +43,22 @@ def main():
     # -------------------------------------------------------------------------
     mqqt_sender = com.MqttClient()
     mqqt_sender.connect_to_ev3()
+
+
     # -------------------------------------------------------------------------
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
     root = Tk()
-    root.title("FINAL PROJECT ROBOT")
+    root.title("Tennis Ball Boy Controller")
 
     # -------------------------------------------------------------------------
     # The main frame, upon which the other frames are placed.
     # -------------------------------------------------------------------------
     main = Frame(root, relief='groove', borderwidth=5)
     main.grid()
+
+    mqtt_receiver = com.MqttClient(laptop_delegate(main))
+    mqtt_receiver.connect_to_ev3()
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # ------------------------------------------------------------------------
@@ -105,7 +129,7 @@ def fetch_ball_frame(root_frame, mqtt_sender):
     speak_entry = Entry(frame, width = 40)
     speak_entry.grid(row=1, column = 1)
 
-    fetch_button = Button(frame, text="Run Fetch Ball", activebackground = 'white', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry.get()))
+    fetch_button = Button(frame, text="Run Fetch Ball", activebackground = 'white', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry))
     fetch_button.grid(rowspan=2 , sticky=W)
 
     return frame
@@ -137,16 +161,19 @@ def deliver_ball(root, mqtt_sender):
     return frame
 
 
+
+
 def handle_fetch_ball(mqtt_sender, speed, speak):
     """
     Side Effects: Sends an mqtt message to the robot with the passed in data
     :param mqtt_sender: mqtt object
     :param speed: string
-    :param speak: string
+    :param speak: tkinter Entry object
     :return: Nothing
     """
-    print('sending: ', speed, speak)
-    mqtt_sender.send_message("m2_fetch_ball", [speed, speak])
+    print('sending: ', speed, speak.get())
+    mqtt_sender.send_message("m2_fetch_ball", [speed, speak.get()])
+    speak.delete(0, len(speak.get()))
 
 def handle_deliver_return(mqtt_sender, speed):
     """
@@ -156,7 +183,9 @@ def handle_deliver_return(mqtt_sender, speed):
     :return: Nothing
     """
     print('handling deliver and return', speed)
-    mqtt_sender.send_message("m2_deliver_return", [speed])
+    mqtt_sender.send_message("m2_deliver_ball", [speed])
+
+
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
