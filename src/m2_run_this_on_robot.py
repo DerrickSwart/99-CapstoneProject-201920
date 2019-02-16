@@ -23,15 +23,18 @@ def main():
     mqtt_receiver = com.MqttClient(delegate)
     mqtt_receiver.connect_to_pc()
 
-    mqtt_sender = com.MqttClient()
-    mqtt_sender.connect_to_pc()
 
 
     while True:
-        time.sleep(0.01)
+        time.sleep(0.04)
         if delegate.is_time_to_stop:
             break
 
+        #print(robot.sensor_system.camera.get_biggest_blob())
+        mqtt_receiver.send_message("display_camera", [robot.sensor_system.camera.get_biggest_blob().center.x,
+                                    robot.sensor_system.camera.get_biggest_blob().center.y
+                                 , robot.sensor_system.camera.get_biggest_blob().height
+                                 , robot.sensor_system.camera.get_biggest_blob().width])
 
 
 

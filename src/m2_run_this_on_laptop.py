@@ -11,27 +11,34 @@ import mqtt_remote_method_calls as com
 from tkinter import *
 from tkinter import ttk
 import shared_gui
-
+import time
 
 class laptop_delegate(object):
     def __init__(self, frame):
         self.frame = frame
-    def display_camera(self, blob):
+    def display_camera(self, center_x, center_y, width, height):
         """
         Side Effects: Displays a circle on a canvas of where the tennis ball will be
-        :param blob: Blob
+        :param center: Point
+        :param width: int
+        :param height: int
         :return:Nothing
         """
-        x0 = blob.center.x - (blob.width/2)
-        y0 = blob.center.y - (blob.height/2)
-        x1 = blob.center.x + (blob.width/2)
-        y1 = blob.center.y + (blob.height/2)
-
+        x0 = center_x - (width/2)
+        y0 = center_y - (height/2)
+        x1 = center_x + (width/2)
+        y1 = center_y + (height/2)
         frame2 = Frame(self.frame, borderwidth = 5 , relief = 'groove')
+        if x0 == 0 and x1 == 0 and y1 == 0 and y0 == 0:
+            Label(frame2, text = "Object NOT in RANGE" ).grid(row=2, column=0)
+
+        print(x0, y0, x1, y1)
+
+        frame2.grid(row=2, column=0)
         canvas = Canvas(frame2, width = 319, height=199)
         canvas.grid(row=0, sticky = E)
         canvas.create_oval(x0, y0, x1, y1)
-
+        time.sleep(0.2)
 def main():
     """
     This code, which must run on a LAPTOP:
@@ -41,8 +48,7 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-    mqqt_sender = com.MqttClient()
-    mqqt_sender.connect_to_ev3()
+
 
 
     # -------------------------------------------------------------------------
@@ -57,8 +63,8 @@ def main():
     main = Frame(root, relief='groove', borderwidth=5)
     main.grid()
 
-    mqtt_receiver = com.MqttClient(laptop_delegate(main))
-    mqtt_receiver.connect_to_ev3()
+    mqtt_sender = com.MqttClient(laptop_delegate(main))
+    mqtt_sender.connect_to_ev3()
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # ------------------------------------------------------------------------
@@ -73,16 +79,16 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    fetch_ball = fetch_ball_frame(main, mqqt_sender)
+    fetch_ball = fetch_ball_frame(main, mqtt_sender)
     fetch_ball.grid(row=0, sticky = W)
 
-    deliver = deliver_ball(main, mqqt_sender)
+    deliver = deliver_ball(main, mqtt_sender)
     deliver.grid(sticky=W, row=1)
 
-    #m2_tone_frame = shared_gui.m2_tone_frame(main, mqqt_sender)
-    #m2_tone_frame.grid(column=1, row=1)
-    #m2_pixy_frame = shared_gui.m2_pixy_cam(main, mqqt_sender)
-    #m2_pixy_frame.grid(column=1, row=2)
+    m2_tone_frame = shared_gui.m2_tone_frame(main, mqtt_sender)
+    m2_tone_frame.grid(column=1, row=1)
+    m2_pixy_frame = shared_gui.m2_pixy_cam(main, mqtt_sender)
+    m2_pixy_frame.grid(column=1, row=2)
     # -------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------

@@ -734,7 +734,7 @@ class Camera(object):
             print("  Make sure it says 'Lego' and not 'Arduino'.")
             print("Note: Only some of the cameras have this option;")
             print("the others are automatically OK in this regard.")
-        self.set_signature("SIG1")
+        self.set_signature("SIG3")
 
     def set_signature(self, signature_name):
         self.low_level_camera.mode = signature_name
