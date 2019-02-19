@@ -24,7 +24,7 @@ def pick_up_ball(speed, direction):
             robot.drive_system.stop()
             break
         if robot.sensor_system.color_sensor.get_color() == 1:
-            robot.drive_system.go(100,100)
+            robot.drive_system.go(100, 100)
             time.sleep(2)
 
     robot.arm_and_claw.raise_arm()

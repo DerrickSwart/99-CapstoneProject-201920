@@ -37,7 +37,7 @@ class RoseBot(object):
         self.led_system = LEDSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
-        # self.beacon_system = BeaconSystem()
+        self.beacon_system = BeaconSystem()
         # self.display_system = DisplaySystem()
 
 
@@ -399,8 +399,8 @@ class SensorSystem(object):
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
         self.camera = Camera()
-        #self.ir_beacon_sensor = InfraredBeaconSensor(4)
-        #self.beacon_seeker = ev3.BeaconSeeker(channel=1)
+        self.ir_beacon_sensor = InfraredBeaconSensor(4)
+        self.beacon_seeker = ev3.BeaconSeeker(channel=1)
         # self.display_system =
 
 

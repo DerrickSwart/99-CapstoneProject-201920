@@ -145,24 +145,6 @@ def get_ball_frame(main_frame, mqtt_sender):
     direction_box_label.grid(row=2, column=0)
     direction_box.grid(row=2, column=1)
 
-    initial_button_label = ttk.Label(frame, text="enter initial value")
-    initial_button_entry = ttk.Entry(frame, width=8)
-
-    initial_button_entry.grid(row=3, column=1)
-    initial_button_label.grid(row=3, column=0)
-
-    rate_entry = ttk.Entry(frame, width=8)
-    rate_label = ttk.Label(frame, text='rate of increase')
-
-    rate_entry.grid(row=4, column=1)
-    rate_label.grid(row=4, column=0)
-
-    which_to_run_entry = ttk.Entry(frame, width=8)
-    which_to_run_entry_label = ttk.Label(frame, text='enter beep, LED, or tone to call that function')
-
-    which_to_run_entry.grid(row=5, column=1)
-    which_to_run_entry_label.grid(row=5, column=0)
-
     run_button = ttk.Button(frame, text='run')
     run_button.grid(row=7, column=0)
     run_button['command'] = lambda: handler_find_ball(mqtt_sender,scale.get(), direction_box.get())
