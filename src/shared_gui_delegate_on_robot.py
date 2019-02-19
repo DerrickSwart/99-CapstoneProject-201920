@@ -7,7 +7,7 @@
   Winter term, 2018-2019.
 """
 import time
-import m1_run_this_on_robot as m1
+import m1_extra as m1
 class Handler(object):
     def __init__(self, robot):
         '''
