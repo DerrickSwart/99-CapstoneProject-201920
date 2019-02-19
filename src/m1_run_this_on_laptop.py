@@ -178,9 +178,9 @@ Handlers for the final sprints frame
 
 def handler_find_ball(mqtt_sender, speed, direction):
     print(speed, direction)
-    mqtt_sender.send_message('find_ball', [speed, direction])
+    mqtt_sender.send_message('m1_find_ball', [speed, direction])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
-#main()
-my_main()
+main()
+#my_main()
