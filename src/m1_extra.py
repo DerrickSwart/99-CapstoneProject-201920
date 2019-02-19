@@ -41,7 +41,7 @@ def pick_up_ball(speed, direction):
     robot.sound_system.tone_maker.play_tone(600, 1000).wait()
     print('i have picked up the ball')
 
-def get_ball_to_goal(color):
+def get_ball_to_goal(color, speed):
     robot = rosebot.RoseBot()
 
     colornumber = 0
@@ -64,8 +64,8 @@ def get_ball_to_goal(color):
     robot.drive_system.go(40,40)
     while colornumber != robot.sensor_system.color_sensor.color_sensor.get_color():
         if robot.sensor_system.color_sensor.get_color() == 1:
-            robot.drive_system.go(100, 100)
-            time.sleep(2)
+            robot.drive_system.go(int(speed), int(speed))
+            time.sleep(1)
             robot.drive_system.go(40,40)
         print(robot.sensor_system.color_sensor.color_sensor.get_color())
     robot.drive_system.stop()

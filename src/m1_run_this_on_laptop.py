@@ -133,7 +133,7 @@ def get_my_frames(main_frame, mqtt_sender):
 def get_ball_frame(main_frame, mqtt_sender):
     frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief='groove')
     frame.grid()
-    frame_label = ttk.Label(frame, text='m1 find and pickup an object using pixy')
+    frame_label = ttk.Label(frame, text='m1 sprint 3 GUI')
     frame_label.grid(row=0, column=0)
 
     scale = ttk.Scale(frame, from_=10, to=100)
@@ -162,6 +162,15 @@ def get_ball_to_goal(main_frame, mqtt_sender):
     dropdown_label = ttk.Label(frame, text = 'pick a color goal to stop at')
     dropdown_label.grid(row = 0, column = 0)
 
+    scale = ttk.Scale(frame, from_=60, to=100)
+    speed_label = ttk.Label(frame, text='boost speed')
+    speed_label.grid(row=2, column=0)
+    scale.grid(row=2, column=1)
+
+    run_button = ttk.Button(frame, text='run')
+    run_button.grid(row=7, column=0)
+    run_button['command'] = lambda: handler_get_ball_to_goal(mqtt_sender, value.get(), scale.get())
+
 
 
 
@@ -179,9 +188,9 @@ Handlers for the final sprints frame
 def handler_find_ball(mqtt_sender, speed, direction):
     print(speed, direction)
     mqtt_sender.send_message('m1_find_ball', [speed, direction])
-def handler_get_ball_to_goal(mqtt_sender, color):
+def handler_get_ball_to_goal(mqtt_sender, color, speed):
     print(color)
-    mqtt_sender.send_message('m1_take_ball_to_goal', [color])
+    mqtt_sender.send_message('m1_take_ball_to_goal', [color, speed])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
