@@ -34,12 +34,30 @@ def pick_up_ball(speed, direction):
 def get_ball_to_goal(color):
     robot = rosebot.RoseBot()
 
+    colornumber = 0
+    print('recieved color', color)
+    if color == "Black" or "black":
+        colornumber = 1
+    if color == "Blue" or "blue":
+        colornumber = 2
+    if color == "Green" or "green":
+        colornumber = 3
+    if color == "Yellow" or "yellow":
+        colornumber = 4
+    if color == "Red" or "red":
+        colornumber = 5
+    if color == "White" or "white":
+        colornumber = 6
+    if color == "Brown" or "brown":
+        colornumber = 7
+
     robot.drive_system.go(40,40)
-    while color != robot.sensor_system.color_sensor.color_sensor.get_color():
+    while colornumber != robot.sensor_system.color_sensor.color_sensor.get_color():
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(100, 100)
             time.sleep(2)
             robot.drive_system.go(40,40)
         print(robot.sensor_system.color_sensor.color_sensor.get_color())
     robot.drive_system.stop()
+    robot.arm_and_claw.lower_arm()
 

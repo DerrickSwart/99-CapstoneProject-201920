@@ -19,7 +19,7 @@ def main():
     """
     #go_straight_encoder()
     #go_straight_time()
-    real_thing()
+    #real_thing()
     #run_test_calibrate()
     #run_test_arm()
     #move_arm_to_position()
@@ -28,7 +28,7 @@ def main():
     #go_straight_color_is()
     #proximity()
     #beacon()
-    #camera()
+    camera()
     #LED()
     #m3_grab_object_LED(1, 1)
 def run_test_arm():

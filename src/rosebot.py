@@ -294,9 +294,11 @@ class DriveSystem(object):
         self.go(-1*speed, speed)
         while True:
             blob = self.sensor_system.camera.get_biggest_blob()
+            print(blob)
             blobarea = blob.width * blob.height
             if blobarea >= area:
                 break
+            time.sleep(0.05)
         self.stop()
 
 

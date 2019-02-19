@@ -179,6 +179,9 @@ Handlers for the final sprints frame
 def handler_find_ball(mqtt_sender, speed, direction):
     print(speed, direction)
     mqtt_sender.send_message('m1_find_ball', [speed, direction])
+def handler_get_ball_to_goal(mqtt_sender, color):
+    print(color)
+    mqtt_sender.send_message('m1_take_ball_to_goal', [color])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
