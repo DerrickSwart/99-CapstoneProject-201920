@@ -185,5 +185,5 @@ def handler_get_ball_to_goal(mqtt_sender, color):
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
-main()
-#my_main()
+#main()
+my_main()
