@@ -7,18 +7,15 @@
   Winter term, 2018-2019.
 """
 import time
-import m2_extras as m2
-
-class Handler(m2.m2_handler):
+import m1_run_this_on_robot as m1
+class Handler(object):
     def __init__(self, robot):
         '''
 
         :type robot: rosebot.RoseBot
         '''
-        
         self.robot = robot
         self.is_time_to_stop = False
-        m2.m2_handler.__init__(self, robot)
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed),
@@ -258,3 +255,6 @@ class Handler(m2.m2_handler):
             self.m3_grab_object_LED(int(initial_value), float(rate_entry))
         if function == 'tone':
             self.m2_go_forward_tone(float(initial_value), float(rate_entry))
+
+    def find_ball(self, speed, direction, initial_value, rate_entry):
+        m1.pick_up_ball(speed,direction,initial_value,rate_entry)
