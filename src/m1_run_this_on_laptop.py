@@ -84,7 +84,7 @@ def my_main():
     arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     my_ball_frame = get_ball_frame(main_frame, mqtt_sender)
-
+    get_to_goal_frame = get_ball_to_goal(main_frame, mqtt_sender)
 
 
 
@@ -95,6 +95,7 @@ def my_main():
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
     my_ball_frame.grid(row = 0, column = 1)
+    get_to_goal_frame.grid(row = 1, column = 1)
 
     root.mainloop()
 
@@ -147,16 +148,37 @@ def get_ball_frame(main_frame, mqtt_sender):
 
     run_button = ttk.Button(frame, text='run')
     run_button.grid(row=7, column=0)
-    run_button['command'] = lambda: handler_find_ball(mqtt_sender,scale.get(), direction_box.get())
+    run_button['command'] = lambda: handler_find_ball(mqtt_sender, scale.get(), direction_box.get())
     return frame
+
+def get_ball_to_goal(main_frame, mqtt_sender):
+    frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief='groove')
+
+    options = ['Pick color here', 'Blue', 'Red', 'green']
+    value = tkinter.StringVar()
+    value.set(options[0])
+    dropdown = ttk.OptionMenu(frame, value, *options)
+    dropdown.grid(row = 1, column = 0)
+    dropdown_label = ttk.Label(frame, text = 'pick a color goal to stop at')
+    dropdown_label.grid(row = 0, column = 0)
+
+
+
+
+
+
+    return frame
+
 
 
 """
 Handlers for the final sprints frame
 """
+
+
 def handler_find_ball(mqtt_sender, speed, direction):
     print(speed, direction)
-    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction])
+    mqtt_sender.send_message('find_ball', [speed, direction])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

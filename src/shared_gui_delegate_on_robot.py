@@ -256,5 +256,5 @@ class Handler(object):
         if function == 'tone':
             self.m2_go_forward_tone(float(initial_value), float(rate_entry))
 
-    def find_ball(self, speed, direction, initial_value, rate_entry):
-        m1.pick_up_ball(speed,direction,initial_value,rate_entry)
+    def find_ball(self, speed, direction):
+        m1.pick_up_ball(speed,direction)

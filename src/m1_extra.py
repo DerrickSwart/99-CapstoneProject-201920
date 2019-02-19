@@ -26,6 +26,18 @@ def pick_up_ball(speed, direction):
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(100, 100)
             time.sleep(2)
+            robot.drive_system.go(40,40)
 
     robot.arm_and_claw.raise_arm()
+def get_ball_to_goal(color):
+    robot = rosebot.RoseBot()
+
+    robot.drive_system.go(40,40)
+    while color != robot.sensor_system.color_sensor.color_sensor.get_color():
+        if robot.sensor_system.color_sensor.get_color() == 1:
+            robot.drive_system.go(100, 100)
+            time.sleep(2)
+            robot.drive_system.go(40,40)
+        print(robot.sensor_system.color_sensor.color_sensor.get_color())
+    robot.drive_system.stop()
 
