@@ -165,18 +165,16 @@ def get_ball_frame(main_frame, mqtt_sender):
 
     run_button = ttk.Button(frame, text='run')
     run_button.grid(row=7, column=0)
-    run_button['command'] = lambda: handler_find_ball(mqtt_sender,scale.get(), direction_box.get(),
-                                                                 initial_button_entry.get(), rate_entry.get(),
-                                                                 which_to_run_entry.get())
+    run_button['command'] = lambda: handler_find_ball(mqtt_sender,scale.get(), direction_box.get())
     return frame
 
 
 """
 Handlers for the final sprints frame
 """
-def handler_find_ball(mqtt_sender, speed, direction, initial_value, rate_entry):
-    print(speed, direction, initial_value, rate_entry)
-    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction, initial_value, rate_entry,])
+def handler_find_ball(mqtt_sender, speed, direction):
+    print(speed, direction)
+    mqtt_sender.send_message('m1_pick_up_using_pixy', [speed, direction])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
