@@ -11,13 +11,14 @@ import m1_extra as m1
 import m3_extra as m3
 
 class Handler(object):
-    def __init__(self, robot):
+    def __init__(self, robot, m1_robot_mqtt = None):
         '''
 
         :type robot: rosebot.RoseBot
         '''
         self.robot = robot
         self.is_time_to_stop = False
+        self.m1_robot_mqtt = m1_robot_mqtt
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed),
@@ -262,9 +263,9 @@ class Handler(object):
             self.m2_go_forward_tone(float(initial_value), float(rate_entry))
 
     def m1_find_ball(self, speed, direction):
-        m1.pick_up_ball(speed,direction)
+        m1.pick_up_ball(speed,direction, self.robot)
     def m1_take_ball_to_goal (self, color, speed):
-        m1.get_ball_to_goal(color, speed)
+        m1.get_ball_to_goal(color, speed, self.robot, self.m1_robot_mqtt)
 
     def m3_main_function(self, motor_speed):
         print(motor_speed)

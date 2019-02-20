@@ -2,8 +2,7 @@ import rosebot
 import time
 
 
-def pick_up_ball(speed, direction):
-    robot = rosebot.RoseBot()
+def pick_up_ball(speed, direction, robot):
     robot.arm_and_claw.calibrate_arm()
     if direction == 'CCW':
         robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 50)
@@ -41,8 +40,8 @@ def pick_up_ball(speed, direction):
     robot.sound_system.tone_maker.play_tone(600, 1000).wait()
     print('i have picked up the ball')
 
-def get_ball_to_goal(color, speed):
-    robot = rosebot.RoseBot()
+def get_ball_to_goal(color, speed, robot, robot_sender):
+
 
     colornumber = 0
     print('recieved color', color)
@@ -105,12 +104,15 @@ def get_ball_to_goal(color, speed):
     if colornumber == 7:
         robot.sound_system.speech_maker.speak('i have scored on the brown goal')
         print('ggggggoooooooaaaaaaalllllll!!!  Congradulations you scored on the brown goal')
+        robot_sender.send_message('brown_goal')
     elif colornumber == 3:
         robot.sound_system.speech_maker.speak('i have scored on the green goal')
         print('ggggggoooooooaaaaaaalllllll!!!  Congradulations you scored on the green goal')
+        robot_sender.send_message('green_goal')
     elif colornumber == 5:
         robot.sound_system.speech_maker.speak('i have scored on the red goal')
         print('ggggggoooooooaaaaaaalllllll!!!  Congradulations you scored on the red goal')
+        robot_sender.send_message('red_goal')
 
 
 

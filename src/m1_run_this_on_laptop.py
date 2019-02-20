@@ -22,7 +22,8 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-    mqtt_sender = com.MqttClient()
+    delegate = Reciever_on_laptop()
+    mqtt_sender = com.MqttClient(delegate)
     mqtt_sender.connect_to_ev3()
 
     # -------------------------------------------------------------------------
@@ -191,6 +192,16 @@ def handler_find_ball(mqtt_sender, speed, direction):
 def handler_get_ball_to_goal(mqtt_sender, color, speed):
     print(color)
     mqtt_sender.send_message('m1_take_ball_to_goal', [color, speed])
+
+
+
+class Reciever_on_laptop(object):
+    def brown_goal(self):
+        print('congradulations, you have scored on the brown goal!!!!!!')
+    def red_goal(self):
+        print('congradulations, you have scored on the red goal!!!!!!!!')
+    def green_goal(self):
+        print('congradulations, you have scored on the green goal!!!!!!')
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
