@@ -20,10 +20,10 @@ def pick_up_ball(speed, direction, robot):
             break
 
     time.sleep(0.4)
-    robot.drive_system.go(20, 20)
+    robot.drive_system.go(40, 40)
 
     while True:
-        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 0.5:
+        if robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() < 0.1:
             robot.drive_system.stop()
             break
         if robot.sensor_system.color_sensor.get_color() == 1:
