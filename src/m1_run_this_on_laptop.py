@@ -22,7 +22,7 @@ def main():
     # -------------------------------------------------------------------------
     # Construct and connect the MQTT Client:
     # -------------------------------------------------------------------------
-    delegate = Reciever_on_laptop()
+
     mqtt_sender = com.MqttClient(delegate)
     mqtt_sender.connect_to_ev3()
 
@@ -69,7 +69,8 @@ def main():
 creates a new GUI for my specific part of the 
 """
 def my_main():
-    mqtt_sender = com.MqttClient()
+    delegate = Reciever_on_laptop()
+    mqtt_sender = com.MqttClient(delegate)
     mqtt_sender.connect_to_ev3()
 
     # -------------------------------------------------------------------------
