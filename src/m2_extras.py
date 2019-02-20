@@ -1,13 +1,15 @@
-#These are my extra functions that will run in shared_gui_delegate
+# These are my extra functions that will run in shared_gui_delegate
 import rosebot
 import time
+
+
 class m2_handler(object):
     def __init__(self, robot):
         self.robot = rosebot.RoseBot()
 
     def m2_fetch_ball(self, speed, speak):
         """
-
+        Side Effects: Locates the ball with the Pixy, then uses the IR to pick the ball up.
         :param speed:
         :param speak:
         :return:
@@ -23,16 +25,15 @@ class m2_handler(object):
         self.m2_pickup_ir(speed)
         print('pickup ir')
 
-
     def m2_pickup_pixy(self):
         while True:
             self.robot.sensor_system.camera.set_signature("SIG4")
             blob = self.robot.sensor_system.camera.get_biggest_blob()
-            if blob.center.x < (320/2):
+            if blob.center.x < (320 / 2):
                 self.robot.drive_system.go(-20, 20)
-            if blob.center.x > (320/2):
-                self.robot.drive_system.go(20,-20)
-            if abs(blob.center.x - (320/2)) < 5:
+            if blob.center.x > (320 / 2):
+                self.robot.drive_system.go(20, -20)
+            if abs(blob.center.x - (320 / 2)) < 5:
                 self.robot.drive_system.stop()
                 break
 
@@ -44,12 +45,11 @@ class m2_handler(object):
                 self.robot.arm_and_claw.raise_arm()
                 break
 
-
     def m2_deliver_ball(self, speed):
         """
-
-        :param speed:
-        :return:
+        Side Effects: Drives until the robots reaches the edge of the court and drops off the ball
+        :param speed: int
+        :return:None
         """
         print('Got: ', speed)
         self.robot.drive_system.go(speed, speed)
@@ -61,13 +61,19 @@ class m2_handler(object):
         self.return_to_start(speed)
 
     def return_to_start(self, speed):
+        """
+        Side Effects: Finds the starting block with the camera and drives to it, then turns to get ready for next ball
+        :param speed: int
+        :return: None
+        """
         self.robot.sensor_system.camera.set_signature("SIG3")
         print('returning at speed: ', speed)
-        self.robot.drive_system.go(-1*speed, -1*speed)
+        self.robot.drive_system.go(-1 * speed, -1 * speed)
         time.sleep(0.5)
         self.robot.drive_system.stop()
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 100)
         self.m2_pickup_pixy()
-        self.robot.drive_system.go_forward_until_distance_is_less_than(2,speed)
+        self.robot.drive_system.go_forward_until_distance_is_less_than(3, speed)
+        self.robot.drive_system.go(-50,50)
+        time.sleep(0.5)
         self.robot.drive_system.stop()
-

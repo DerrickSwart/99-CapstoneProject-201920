@@ -13,9 +13,11 @@ from tkinter import ttk
 import shared_gui
 import time
 
+
 class laptop_delegate(object):
     def __init__(self, frame):
         self.frame = frame
+
     def display_camera(self, center_x, center_y, width, height):
         """
         Side Effects: Displays a circle on a canvas of where the tennis ball will be
@@ -24,21 +26,23 @@ class laptop_delegate(object):
         :param height: int
         :return:Nothing
         """
-        x0 = center_x - (width/2)
-        y0 = center_y - (height/2)
-        x1 = center_x + (width/2)
-        y1 = center_y + (height/2)
-        frame2 = Frame(self.frame, borderwidth = 5 , relief = 'groove')
-        if x0 == 0  and x1 == 0 and y1 == 0 and y0 == 0 :
-            Label(frame2, text = "Object NOT in RANGE" ).grid(row=2, column=0)
+        x0 = center_x - (width / 2)
+        y0 = center_y - (height / 2)
+        x1 = center_x + (width / 2)
+        y1 = center_y + (height / 2)
+        frame2 = Frame(self.frame, borderwidth=5, relief='groove')
+        if x0 == 0 and x1 == 0 and y1 == 0 and y0 == 0:
+            Label(frame2, text="Object NOT in RANGE").grid(row=2, column=0)
 
         print(x0, y0, x1, y1)
 
         frame2.grid(row=2, column=0)
-        canvas = Canvas(frame2, width = 319, height=199)
-        canvas.grid(row=0, sticky = E)
+        canvas = Canvas(frame2, width=319, height=199)
+        canvas.grid(row=0, sticky=E)
         canvas.create_oval(x0, y0, x1, y1)
         time.sleep(0.2)
+
+
 def main():
     """
     This code, which must run on a LAPTOP:
@@ -59,7 +63,7 @@ def main():
     main.grid()
 
     ############
-    #MQTT Client
+    # MQTT Client
     ############
     mqtt_sender = com.MqttClient(laptop_delegate(main))
     mqtt_sender.connect_to_ev3()
@@ -79,18 +83,18 @@ def main():
     # Grid the frames.
     # -------------------------------------------------------------------------
     fetch_ball = fetch_ball_frame(main, mqtt_sender)
-    fetch_ball.grid(row=0, sticky = N+S+E+W)
-
+    fetch_ball.grid(row=0, sticky=N + S + E + W)
 
     deliver = deliver_ball(main, mqtt_sender)
-    deliver.grid(sticky=N+S+E+W, row=1)
+    deliver.grid(sticky=N + S + E + W, row=1)
 
     temp_canvas = canvas_place_holder(main)
-    temp_canvas.grid(sticky=N+S+E+W, row=2)
+    temp_canvas.grid(sticky=N + S + E + W, row=2)
     # ------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
     root.mainloop()
+
 
 def get_shared_frames(main_frame, mqtt_sender):
     teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
@@ -99,12 +103,12 @@ def get_shared_frames(main_frame, mqtt_sender):
 
 
 def grid_frames(teleop_frame, control):
-    teleop_frame.grid(row=0,column=2)
+    teleop_frame.grid(row=0, column=2)
     control.grid(column=2, row=1)
 
 
 #################################################
-#Sprint 3 frames
+# Sprint 3 frames
 ################################################
 def fetch_ball_frame(root_frame, mqtt_sender):
     """
@@ -115,32 +119,34 @@ def fetch_ball_frame(root_frame, mqtt_sender):
     :param mqtt_sender: mqtt object
     :return: tkinter frame
     """
-    frame = Frame(root_frame, relief = 'groove', borderwidth = 10)
-    frame.grid(column=0, row=0, sticky=N+S+E+W)
+    frame = Frame(root_frame, relief='groove', borderwidth=10)
+    frame.grid(column=0, row=0, sticky=N + S + E + W)
     Grid.columnconfigure(frame, 0, weight=1)
     Grid.rowconfigure(frame, 0, weight=1)
-    #Set robot speed
+    # Set robot speed
 
-    title_label = Label(frame, text="Tennis Ball Boy Robot Program", font= ("Arial", 16))
-    title_label.grid(row=0,column=0, sticky=N+E+S+W)
+    title_label = Label(frame, text="Tennis Ball Boy Robot Program", font=("Arial", 16))
+    title_label.grid(row=0, column=0, sticky=N + E + S + W)
 
-    fetch_label = Label(frame, text = 'Set Fetch Speed of Robot:', font=("Arial", 12))
+    fetch_label = Label(frame, text='Set Fetch Speed of Robot:', font=("Arial", 12))
     fetch_label.grid(row=1, column=0, sticky=W)
 
-    fetch_speed = Scale(frame, from_ = 5, to=100, orient = HORIZONTAL, length=220, bg="yellow", fg="black")
-    fetch_speed.grid(row=1, column =1)
+    fetch_speed = Scale(frame, from_=5, to=100, orient=HORIZONTAL, length=220, bg="yellow", fg="black")
+    fetch_speed.grid(row=1, column=1)
 
     speak_label = Label(frame, text="Enter a tennis phrase: ", font=("arial", 12))
     speak_label.grid(row=2, sticky=W)
 
-    speak_entry = Entry(frame, width = 40)
-    speak_entry.grid(row=2, column = 1)
+    speak_entry = Entry(frame, width=40)
+    speak_entry.grid(row=2, column=1)
     speak_entry.insert(0, 'Lets play tennis')
 
-    fetch_button = Button(frame, text="Run Fetch Ball",font=("Arial", 12), activebackground = 'yellow', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry))
-    fetch_button.grid(rowspan=3 , sticky=W)
+    fetch_button = Button(frame, text="Run Fetch Ball", font=("Arial", 12), activebackground='yellow', borderwidth=5,
+                          command=lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry))
+    fetch_button.grid(rowspan=3, sticky=W)
 
     return frame
+
 
 def deliver_ball(root, mqtt_sender):
     """
@@ -151,24 +157,26 @@ def deliver_ball(root, mqtt_sender):
     :param mqtt_sender:  mqtt object
     :return: tkinter frame
     """
-    frame = Frame(root, relief = 'groove', borderwidth = 10)
-    frame.grid(column=0, row=1, sticky=N+S+E+W)
+    frame = Frame(root, relief='groove', borderwidth=10)
+    frame.grid(column=0, row=1, sticky=N + S + E + W)
     Grid.rowconfigure(frame, 0, weight=1)
     Grid.columnconfigure(frame, 1, weight=1)
 
-    deliver_label = Label(frame, text = "Deliver the ball, then go back to original position", font=("Arial", 16))
+    deliver_label = Label(frame, text="Deliver the ball, then go back to original position", font=("Arial", 16))
     deliver_label.grid(row=0, column=0)
 
     slider_label = Label(frame, text="Delivery & return speed: ", font=("Arial", 12))
     slider_label.grid(sticky=W, row=1)
 
-    speed_slider = Scale(frame, from_=5, to=100, orient = HORIZONTAL, length =220, bg="yellow")
+    speed_slider = Scale(frame, from_=5, to=100, orient=HORIZONTAL, length=220, bg="yellow")
     speed_slider.grid(column=1, row=1)
 
-    deliver_button = Button(frame,font=("arial", 12), text = "Deliver and Return", activebackground= 'yellow', borderwidth = 5, command = lambda: handle_deliver_return(mqtt_sender, speed_slider.get()))
-    deliver_button.grid(row = 2, sticky=W)
+    deliver_button = Button(frame, font=("arial", 12), text="Deliver and Return", activebackground='yellow',
+                            borderwidth=5, command=lambda: handle_deliver_return(mqtt_sender, speed_slider.get()))
+    deliver_button.grid(row=2, sticky=W)
 
     return frame
+
 
 def canvas_place_holder(root):
     """
@@ -180,13 +188,13 @@ def canvas_place_holder(root):
     frame2.grid(row=2, column=0)
     canvas = Canvas(frame2, width=319, height=199)
     canvas.grid(row=0, sticky=E)
-    Label(frame2, text="No data received from robot!! \n Connect to display Camera data", font=('arial', 20)).grid(row=2, column=0)
+    Label(frame2, text="No data received from robot!! \n Connect to display Camera data", font=('arial', 20)).grid(
+        row=2, column=0)
     return frame2
 
 
-
 ########################################################
-#HANLDERS
+# HANLDERS
 ########################################################
 def handle_fetch_ball(mqtt_sender, speed, speak):
     """
@@ -200,6 +208,7 @@ def handle_fetch_ball(mqtt_sender, speed, speak):
     mqtt_sender.send_message("m2_fetch_ball", [speed, speak.get()])
     speak.delete(0, len(speak.get()))
 
+
 def handle_deliver_return(mqtt_sender, speed):
     """
     Side Effects: Sends an mqtt message to the robot with the passed in data
@@ -209,7 +218,6 @@ def handle_deliver_return(mqtt_sender, speed):
     """
     print('handling deliver and return', speed)
     mqtt_sender.send_message("m2_deliver_ball", [speed])
-
 
 
 # -----------------------------------------------------------------------------
