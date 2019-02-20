@@ -121,14 +121,14 @@ def turn_left_90():
     robot = rosebot.RoseBot()
     robot.drive_system.stop()
     robot.drive_system.go(-40, 40)
-    time.sleep(2)
+    time.sleep(2.2)
     robot.drive_system.stop()
 
 def turn_right_90():
     robot = rosebot.RoseBot()
     robot.drive_system.stop()
     robot.drive_system.go(40, -40)
-    time.sleep(2)
+    time.sleep(2.2)
     robot.drive_system.stop()
 
 
