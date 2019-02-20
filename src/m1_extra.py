@@ -46,22 +46,20 @@ def get_ball_to_goal(color, speed):
 
     colornumber = 0
     print('recieved color', color)
-    if color == "Black" or "black":
-        colornumber = 1
-    if color == "Blue" or "blue":
-        colornumber = 2
-    if color == "Green" or "green":
-        colornumber = 3
-    if color == "Yellow" or "yellow":
-        colornumber = 4
-    if color == "Red" or "red":
-        colornumber = 5
-    if color == "White" or "white":
-        colornumber = 6
-    if color == "Brown" or "brown":
-        colornumber = 7
 
-    robot.drive_system.go(20,20)
+    if color == "Blue":
+        colornumber = 2
+    elif color == "Green":
+        colornumber = 3
+    elif color == "Red" or "red":
+        colornumber = 5
+
+
+    print(colornumber)
+
+    time.sleep(4)
+
+    robot.drive_system.go(20, 20)
     while True:
         """
         if robot.sensor_system.color_sensor.get_color() == 1:

@@ -154,7 +154,7 @@ def get_ball_frame(main_frame, mqtt_sender):
 def get_ball_to_goal(main_frame, mqtt_sender):
     frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief='groove')
 
-    options = ['Pick color here', 'Blue', 'Red', 'green']
+    options = ['Pick color here', 'Blue', 'Red', 'Green']
     value = tkinter.StringVar()
     value.set(options[0])
     dropdown = ttk.OptionMenu(frame, value, *options)
