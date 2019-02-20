@@ -8,6 +8,8 @@
 """
 import time
 import m1_extra as m1
+import m3_extra as m3
+
 class Handler(object):
     def __init__(self, robot):
         '''
@@ -263,3 +265,6 @@ class Handler(object):
         m1.pick_up_ball(speed,direction)
     def m1_take_ball_to_goal (self, color, speed):
         m1.get_ball_to_goal(color, speed)
+
+    def m3_main_function(self, motor_speed, speed_right, speed_left):
+        m3.main_function(motor_speed, speed_right, speed_left)
