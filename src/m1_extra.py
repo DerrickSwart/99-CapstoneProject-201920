@@ -47,8 +47,8 @@ def get_ball_to_goal(color, speed):
     colornumber = 0
     print('recieved color', color)
 
-    if color == "Blue":
-        colornumber = 2
+    if color == "Yellow":
+        colornumber = 4
     elif color == "Green":
         colornumber = 3
     elif color == "Red":
@@ -70,18 +70,20 @@ def get_ball_to_goal(color, speed):
         elif robot.sensor_system.color_sensor.get_color() == colornumber:
             robot.drive_system.stop()
             break
+
         elif robot.sensor_system.color_sensor.get_color() == 5:
             turn_left_90()
             robot.drive_system.go(20, 20)
         elif robot.sensor_system.color_sensor.get_color() == 3:
             turn_right_90()
             robot.drive_system.go(20, 20)
+
         print(robot.sensor_system.color_sensor.get_color())
 
-    if colornumber == 2:
-        robot.sound_system.speech_maker.speak('i have scored on the blue goal')
+    if colornumber == 4:
+        robot.sound_system.speech_maker.speak('i have scored on the yellow goal')
     elif colornumber == 3:
-        robot.sound_system.speech_maker.speak('i have scorec on the green goal')
+        robot.sound_system.speech_maker.speak('i have scored on the green goal')
     elif colornumber == 5:
         robot.sound_system.speech_maker.speak('i have scored on the red goal')
 
