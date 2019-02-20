@@ -93,7 +93,7 @@ def final_project():
     # The root TK object for the GUI:
     # -------------------------------------------------------------------------
     root = tkinter.Tk()
-    root.title('Derrick Swart: CSSE 120 Capstone Project Sprint 3')
+    root.title('Joshua Giambattista')
 
     main_frame = ttk.Frame(root, padding=20, borderwidth=5, relief='groove')
     main_frame.grid()
@@ -104,7 +104,13 @@ def final_project():
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
+
+    root.mainloop()
+
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
-main()
+#main()
+
+final_project()
