@@ -11,7 +11,7 @@ import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
 import shared_gui
-import rosebot
+import m3_extra as m3
 
 def main():
     """
@@ -66,17 +66,25 @@ def mario_kart_frame(frame, mqtt_sender):
     frame_label = ttk.Label(frame, text='Mario Kart')
     frame_label.grid(row=0, column=0)
 
-    turning_scale = ttk.Scale(frame, from_= 0, to = 100)
+    turning_scale = ttk.Scale(frame, from_= -30, to = 30)
+    turning_scale.set(0)
     turning_scale.grid(row=1, column = 0)
-    turning_scale.set(50)
+
     options = ['Pick Motor Speed', '50CC', '100CC', '150CC']
     value = tkinter.StringVar()
     value.set(options[0])
     dropdown_menu = ttk.OptionMenu(frame, value, *options)
     dropdown_menu.grid(row=2, column=0)
-    #dropdown_label = ttk.Label(frame, text='pick a color goal to stop at')
+    #dropdown_label = ttk.Label(frame, text='')
     #dropdown_label.grid(row=2, column=1)
 
+    start_button = ttk.Button(frame, text='Start')
+    start_button.grid(row=3, column=0)
+    start_button['command'] = lambda: handler_main_function(mqtt_sender, value.get(), turning_scale.get())
+
+    turn_button = ttk.Button(frame, text = 'Turn Value')
+    turn_button.grid(row=4,column=0)
+    turn_button['command'] = lambda: handler_turn(mqtt_sender, turning_scale.get(), value.get())
     return frame
 
 def get_shared_frames(frame, mqtt_sender):
@@ -127,9 +135,17 @@ def final_project():
 
     root.mainloop()
 
-def handler_main_function(mqtt_sender, motor_speed, speed_right, speed_left):
-    print(motor_speed, speed_right, speed_left)
-    mqtt_sender.send_message('m3_main_function', [motor_speed, speed_right, speed_left])
+def handler_main_function(mqtt_sender, motor_speed, turning_value):
+    print(motor_speed, turning_value)
+    mqtt_sender.send_message('m3_main_function', [motor_speed, turning_value])
+
+def handler_turn(mqtt_sender,motor_speed, turning_value):
+    print(turning_value)
+    mqtt_sender.send_message('m3_getTurn', [motor_speed, turning_value])
+    #m3.turn(turning_scale)
+
+
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

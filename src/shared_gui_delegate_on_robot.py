@@ -266,5 +266,9 @@ class Handler(object):
     def m1_take_ball_to_goal (self, color, speed):
         m1.get_ball_to_goal(color, speed)
 
-    def m3_main_function(self, motor_speed, speed_right, speed_left):
-        m3.main_function(motor_speed, speed_right, speed_left)
+    def m3_main_function(self, motor_speed, turning_value):
+        print(motor_speed, turning_value)
+        m3.main_function(motor_speed, turning_value)
+    def m3_getTurn(self, motor_speed, turning_value):
+        print(motor_speed, turning_value)
+        m3.running_code(motor_speed, turning_value)
