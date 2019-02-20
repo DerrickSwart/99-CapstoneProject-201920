@@ -13,8 +13,8 @@ class m2_handler(object):
         :return:
         """
         print('Got: ', speed, speak)
-        self.robot.arm_and_claw.calibrate_arm()
         self.robot.sound_system.speech_maker.speak(speak)
+        self.robot.arm_and_claw.calibrate_arm()
         self.robot.sensor_system.camera.set_signature("SIG4")
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 100)
         print('Made it through spin counterclockwise')

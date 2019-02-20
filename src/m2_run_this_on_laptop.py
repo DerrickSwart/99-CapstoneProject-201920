@@ -29,7 +29,7 @@ class laptop_delegate(object):
         x1 = center_x + (width/2)
         y1 = center_y + (height/2)
         frame2 = Frame(self.frame, borderwidth = 5 , relief = 'groove')
-        if x0 == 0 and x1 == 0 and y1 == 0 and y0 == 0:
+        if x0 == 0  and x1 == 0 and y1 == 0 and y0 == 0 :
             Label(frame2, text = "Object NOT in RANGE" ).grid(row=2, column=0)
 
         print(x0, y0, x1, y1)
@@ -45,11 +45,6 @@ def main():
       1. Constructs a GUI for my part of the Capstone Project.
       2. Communicates via MQTT with the code that runs on the EV3 robot.
     """
-    # -------------------------------------------------------------------------
-    # Construct and connect the MQTT Client:
-    # -------------------------------------------------------------------------
-
-
 
     # -------------------------------------------------------------------------
     # The root TK object for the GUI:
@@ -63,27 +58,35 @@ def main():
     main = Frame(root, relief='groove', borderwidth=5)
     main.grid()
 
+    ############
+    #MQTT Client
+    ############
     mqtt_sender = com.MqttClient(laptop_delegate(main))
     mqtt_sender.connect_to_ev3()
+
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # ------------------------------------------------------------------------
-    teleop_frame, arm_frame = get_shared_frames(main, mqtt_sender)
+    teleop_frame, control_frame = get_shared_frames(main, mqtt_sender)
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
     # : Implement and call get_my_frames(...)
 
-    grid_frames(teleop_frame, arm_frame)
+    grid_frames(teleop_frame, control_frame)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
     fetch_ball = fetch_ball_frame(main, mqtt_sender)
-    fetch_ball.grid(row=0, sticky = W)
+    fetch_ball.grid(row=0, sticky = N+S+E+W)
+
 
     deliver = deliver_ball(main, mqtt_sender)
-    deliver.grid(sticky=W, row=1)
+    deliver.grid(sticky=N+S+E+W, row=1)
+
+    temp_canvas = canvas_place_holder(main)
+    temp_canvas.grid(sticky=N+S+E+W, row=2)
     # ------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
@@ -91,13 +94,13 @@ def main():
 
 def get_shared_frames(main_frame, mqtt_sender):
     teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
-    arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
-    return teleop_frame, arm_frame
+    control = shared_gui.get_control_frame(main_frame, mqtt_sender)
+    return teleop_frame, control
 
 
-def grid_frames(teleop_frame, arm_frame):
+def grid_frames(teleop_frame, control):
     teleop_frame.grid(row=0,column=2)
-    arm_frame.grid(column=2, row=1)
+    control.grid(column=2, row=1)
 
 
 #################################################
@@ -113,22 +116,29 @@ def fetch_ball_frame(root_frame, mqtt_sender):
     :return: tkinter frame
     """
     frame = Frame(root_frame, relief = 'groove', borderwidth = 10)
-    frame.grid()
+    frame.grid(column=0, row=0, sticky=N+S+E+W)
+    Grid.columnconfigure(frame, 0, weight=1)
+    Grid.rowconfigure(frame, 0, weight=1)
     #Set robot speed
-    fetch_label = Label(frame, text = 'Set Fetch Speed of Robot:')
-    fetch_label.grid(row=0, column=0)
 
-    fetch_speed = Scale(frame, from_ = 5, to=100, orient = HORIZONTAL, length=220)
-    fetch_speed.grid(row=0, column =1)
+    title_label = Label(frame, text="Tennis Ball Boy Robot Program", font= ("Arial", 16))
+    title_label.grid(row=0,column=0, sticky=N+E+S+W)
 
-    speak_label = Label(frame, text="Enter a tennis phrase: ")
-    speak_label.grid(row=1, sticky=W)
+    fetch_label = Label(frame, text = 'Set Fetch Speed of Robot:', font=("Arial", 12))
+    fetch_label.grid(row=1, column=0, sticky=W)
+
+    fetch_speed = Scale(frame, from_ = 5, to=100, orient = HORIZONTAL, length=220, bg="yellow", fg="black")
+    fetch_speed.grid(row=1, column =1)
+
+    speak_label = Label(frame, text="Enter a tennis phrase: ", font=("arial", 12))
+    speak_label.grid(row=2, sticky=W)
 
     speak_entry = Entry(frame, width = 40)
-    speak_entry.grid(row=1, column = 1)
+    speak_entry.grid(row=2, column = 1)
+    speak_entry.insert(0, 'Lets play tennis')
 
-    fetch_button = Button(frame, text="Run Fetch Ball", activebackground = 'white', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry))
-    fetch_button.grid(rowspan=2 , sticky=W)
+    fetch_button = Button(frame, text="Run Fetch Ball",font=("Arial", 12), activebackground = 'yellow', borderwidth=5, command = lambda: handle_fetch_ball(mqtt_sender, fetch_speed.get(), speak_entry))
+    fetch_button.grid(rowspan=3 , sticky=W)
 
     return frame
 
@@ -142,21 +152,37 @@ def deliver_ball(root, mqtt_sender):
     :return: tkinter frame
     """
     frame = Frame(root, relief = 'groove', borderwidth = 10)
-    frame.grid()
+    frame.grid(column=0, row=1, sticky=N+S+E+W)
+    Grid.rowconfigure(frame, 0, weight=1)
+    Grid.columnconfigure(frame, 1, weight=1)
 
-    deliver_label = Label(frame, text = "Deliver the ball, then go back to original position")
+    deliver_label = Label(frame, text = "Deliver the ball, then go back to original position", font=("Arial", 16))
     deliver_label.grid(row=0, column=0)
 
-    slider_label = Label(frame, text="Delivery & return speed: ")
+    slider_label = Label(frame, text="Delivery & return speed: ", font=("Arial", 12))
     slider_label.grid(sticky=W, row=1)
 
-    speed_slider = Scale(frame, from_=5, to=100, orient = HORIZONTAL, length =220)
+    speed_slider = Scale(frame, from_=5, to=100, orient = HORIZONTAL, length =220, bg="yellow")
     speed_slider.grid(column=1, row=1)
 
-    deliver_button = Button(frame, text = "Deliver and Return",borderwidth = 5, command = lambda: handle_deliver_return(mqtt_sender, speed_slider.get()))
+    deliver_button = Button(frame,font=("arial", 12), text = "Deliver and Return", activebackground= 'yellow', borderwidth = 5, command = lambda: handle_deliver_return(mqtt_sender, speed_slider.get()))
     deliver_button.grid(row = 2, sticky=W)
 
     return frame
+
+def canvas_place_holder(root):
+    """
+    Side Effects: creates a empty canvas until data is received from the robot
+    :param root: tkinter.Frame
+    :return: tkinter.Frame
+    """
+    frame2 = Frame(root, borderwidth=5, relief='groove')
+    frame2.grid(row=2, column=0)
+    canvas = Canvas(frame2, width=319, height=199)
+    canvas.grid(row=0, sticky=E)
+    Label(frame2, text="No data received from robot!! \n Connect to display Camera data", font=('arial', 20)).grid(row=2, column=0)
+    return frame2
+
 
 
 ########################################################
