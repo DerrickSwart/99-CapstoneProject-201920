@@ -84,6 +84,26 @@ def get_my_frames(frame, mqtt_sender):
     pick_up_pixy_frame = shared_gui.m3_pick_up_pixy_frame(frame, mqtt_sender)
     return pick_up_prox_frame, pick_up_pixy_frame
 
+
+def final_project():
+    mqtt_sender = com.MqttClient()
+    mqtt_sender.connect_to_ev3()
+
+    # -------------------------------------------------------------------------
+    # The root TK object for the GUI:
+    # -------------------------------------------------------------------------
+    root = tkinter.Tk()
+    root.title('Derrick Swart: CSSE 120 Capstone Project Sprint 3')
+
+    main_frame = ttk.Frame(root, padding=20, borderwidth=5, relief='groove')
+    main_frame.grid()
+
+    teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
+    arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
+    control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
+    teleop_frame.grid(row=0, column=0)
+    arm_frame.grid(row=1, column=0)
+    control_frame.grid(row=2, column=0)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------

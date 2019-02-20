@@ -163,7 +163,7 @@ class Handler(object):
     def m3_grab_object_LED(self, start_time, increase):
 
         self.robot.arm_and_claw.calibrate_arm()
-        self.robot.drive_system.go(20, 20)
+        self.robot.drive_system.go(40, 40)
         led = 1
         wait_time = int(start_time)
         while self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() > 0.25:
@@ -194,10 +194,12 @@ class Handler(object):
 
     def m3_pick_up_pixy(self, speed, direction, initial, increase_entry, choice):
         if direction == 'CCW':
+            print("CCW")
             self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), 250)
         elif direction == 'CW':
+            print("CW")
             self.robot.drive_system.spin_clockwise_until_sees_object(int(speed), 250)
-
+        '''
         while True:
             blob = self.robot.sensor_system.camera.get_biggest_blob()
             if blob.center.x < 160:
@@ -216,7 +218,8 @@ class Handler(object):
             self.m3_grab_object_LED(float(initial), float(increase_entry))
         if choice == 'tone':
             self.m2_go_forward_tone(float(initial), float(increase_entry))
-
+        '''
+        time.sleep(1)
     def turn_counterclockwise_until_area_is(self,speed, area):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed), int(area))
     def turn_clockwise_until_area_is(self,speed, area):
