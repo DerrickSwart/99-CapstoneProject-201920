@@ -61,16 +61,48 @@ def get_ball_to_goal(color, speed):
 
     robot.drive_system.go(20, 20)
     while True:
-        """
+
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(int(speed), int(speed))
-            time.sleep(1)
+            time.sleep(3)
             robot.drive_system.go(20,20)
-        """
-        if robot.sensor_system.color_sensor.get_color() == colornumber:
+
+        elif robot.sensor_system.color_sensor.get_color() == colornumber:
             robot.drive_system.stop()
             break
+        elif robot.sensor_system.color_sensor.get_color() == 5:
+            turn_left_90()
+            robot.drive_system.go(20, 20)
+        elif robot.sensor_system.color_sensor.get_color() == 3:
+            turn_right_90()
+            robot.drive_system.go(20, 20)
         print(robot.sensor_system.color_sensor.get_color())
 
-    robot.arm_and_claw.lower_arm()
-    robot.sound_system.speech_maker.speak('I have scored')
+    if colornumber == 2:
+        robot.sound_system.speech_maker.speak('i have scored on the blue goal')
+    elif colornumber == 3:
+        robot.sound_system.speech_maker.speak('i have scorec on the green goal')
+    elif colornumber == 5:
+        robot.sound_system.speech_maker.speak('i have scored on the red goal')
+
+
+
+
+    print('I have scored on the ', color, 'goal')
+
+def turn_left_90():
+    robot = rosebot.RoseBot()
+    robot.drive_system.stop()
+    robot.drive_system.go(-20, 20)
+    time.sleep(7)
+    robot.drive_system.stop()
+
+def turn_right_90():
+    robot = rosebot.RoseBot()
+    robot.drive_system.stop()
+    robot.drive_system.go(20, -20)
+    time.sleep(7)
+    robot.drive_system.stop()
+
+
+
