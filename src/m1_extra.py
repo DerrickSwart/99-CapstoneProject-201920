@@ -51,7 +51,7 @@ def get_ball_to_goal(color, speed):
         colornumber = 2
     elif color == "Green":
         colornumber = 3
-    elif color == "Red" or "red":
+    elif color == "Red":
         colornumber = 5
 
 
