@@ -258,5 +258,5 @@ class Handler(object):
 
     def m1_find_ball(self, speed, direction):
         m1.pick_up_ball(speed,direction)
-    def m1_take_ball_to_goal(self, color, speed ):
+    def m1_take_ball_to_goal (self, color, speed):
         m1.get_ball_to_goal(color, speed)

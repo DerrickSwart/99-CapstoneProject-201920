@@ -61,13 +61,18 @@ def get_ball_to_goal(color, speed):
     if color == "Brown" or "brown":
         colornumber = 7
 
-    robot.drive_system.go(40,40)
-    while colornumber != robot.sensor_system.color_sensor.color_sensor.get_color():
+    robot.drive_system.go(20,20)
+    while True:
+        """
         if robot.sensor_system.color_sensor.get_color() == 1:
             robot.drive_system.go(int(speed), int(speed))
             time.sleep(1)
-            robot.drive_system.go(40,40)
-        print(robot.sensor_system.color_sensor.color_sensor.get_color())
-    robot.drive_system.stop()
-    robot.arm_and_claw.lower_arm()
+            robot.drive_system.go(20,20)
+        """
+        if robot.sensor_system.color_sensor.get_color() == colornumber:
+            robot.drive_system.stop()
+            break
+        print(robot.sensor_system.color_sensor.get_color())
 
+    robot.arm_and_claw.lower_arm()
+    robot.sound_system.speech_maker.speak('I have scored')
