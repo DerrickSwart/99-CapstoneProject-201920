@@ -74,17 +74,21 @@ def mario_kart_frame(frame, mqtt_sender):
     value = tkinter.StringVar()
     value.set(options[0])
     dropdown_menu = ttk.OptionMenu(frame, value, *options)
-    dropdown_menu.grid(row=2, column=0)
-    #dropdown_label = ttk.Label(frame, text='')
-    #dropdown_label.grid(row=2, column=1)
+    dropdown_menu.grid(row=3, column=0)
+    dropdown_label = ttk.Label(frame, text='Turn value')
+    dropdown_label.grid(row=2, column=0)
 
-    start_button = ttk.Button(frame, text='Start')
-    start_button.grid(row=3, column=0)
-    start_button['command'] = lambda: handler_main_function(mqtt_sender, value.get(), turning_scale.get())
+    start_button = ttk.Button(frame, text='Look for items')
+    start_button.grid(row=4, column=0)
+    start_button['command'] = lambda: handler_main_function(mqtt_sender, value.get())
 
     turn_button = ttk.Button(frame, text = 'Turn Value')
-    turn_button.grid(row=4,column=0)
-    turn_button['command'] = lambda: handler_turn(mqtt_sender, turning_scale.get(), value.get())
+    turn_button.grid(row=5,column=0)
+    turn_button['command'] = lambda: handler_turn(mqtt_sender, value.get(), turning_scale.get())
+
+    stop_button = ttk.Button(frame, text = 'Stop')
+    stop_button.grid(row = 6, column = 0)
+    stop_button['command'] = lambda: handler_stop(mqtt_sender)
     return frame
 
 def get_shared_frames(frame, mqtt_sender):
@@ -135,14 +139,18 @@ def final_project():
 
     root.mainloop()
 
-def handler_main_function(mqtt_sender, motor_speed, turning_value):
-    print(motor_speed, turning_value)
-    mqtt_sender.send_message('m3_main_function', [motor_speed, turning_value])
+def handler_main_function(mqtt_sender, motor_speed):
+    print(motor_speed)
+    mqtt_sender.send_message('m3_main_function', [motor_speed])
 
 def handler_turn(mqtt_sender,motor_speed, turning_value):
-    print(turning_value)
+    print(motor_speed, turning_value)
     mqtt_sender.send_message('m3_getTurn', [motor_speed, turning_value])
     #m3.turn(turning_scale)
+
+def handler_stop(mqtt_sender):
+    print("stop")
+    mqtt_sender.send_message('m3_stop')
 
 
 

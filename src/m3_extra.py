@@ -3,15 +3,54 @@ import time
 #import m3_run_this_on_laptop as m3
 import random
 
+def main_function(motor_speed, turning_value):
+    robot = rosebot.RoseBot()
+    if motor_speed == '50CC':
+        highest_value = 30
+    elif motor_speed == '100CC':
+        highest_value = 60
+    elif motor_speed == '150CC':
+        highest_value = 90
+    print(highest_value)
+    turn(turning_value, highest_value)
 
+def main_function2(motor_speed):
+    robot = rosebot.RoseBot()
+    if motor_speed == '50CC':
+        robot.drive_system.go(30, 30)
+        highest_value = 30
+    elif motor_speed == '100CC':
+        highest_value = 60
+    elif motor_speed == '150CC':
+        highest_value = 90
+    print(highest_value)
+    robot.drive_system.go(highest_value, highest_value)
+    running_code(highest_value)
+
+def stop():
+    robot = rosebot.RoseBot()
+    robot.drive_system.stop()
+
+def running_code(highest_value):
+    robot = rosebot.RoseBot()
+    while True:
+        banana(highest_value,robot)
+        pick_up_item(highest_value)
+        finish = finish_line()
+        #turn(turning_value, highest_value)
+        if finish == 1:
+            robot.drive_system.stop()
+            break
 
 def turn(turning_value, highest_value):
    print(turning_value)
    robot = rosebot.RoseBot()
-   if turning_value > 0:
+   if int(turning_value) > 0:
        robot.drive_system.go(highest_value, highest_value-turning_value)
-   elif turning_value < 0:
-       robot.drive_system.go(highest_value-turning_value, highest_value)
+       #running_code(highest_value, turning_value)
+   elif int(turning_value) < 0:
+       robot.drive_system.go(highest_value+turning_value, highest_value)
+       #running_code(highest_value, turning_value)
    else:
        robot.drive_system.go(highest_value,highest_value)
 
@@ -61,26 +100,4 @@ def finish_line():
         print("I have finished the race")
         return 1
 
-def main_function(motor_speed, turning_value):
-    robot = rosebot.RoseBot()
-    if motor_speed == '50CC':
-        robot.drive_system.go(30,30)
-        highest_value = 30
-    elif motor_speed == '100CC':
-        robot.drive_system.go(60,60)
-        highest_value = 60
-    elif motor_speed == '150CC':
-        robot.drive_system.go(90,90)
-        highest_value = 90
-    print(highest_value)
-    running_code(highest_value, turning_value)
 
-def running_code(highest_value, turning_value):
-    robot = rosebot.RoseBot()
-    while True:
-        banana(highest_value,robot)
-        pick_up_item(highest_value)
-        finish = finish_line()
-        turn(turning_value, highest_value)
-        if finish == 1:
-            quit()
