@@ -36,9 +36,9 @@ class laptop_delegate(object):
 
         print(x0, y0, x1, y1)
 
-        frame2.grid(row=2, column=0)
+        frame2.grid(row=3, column=0)
         canvas = Canvas(frame2, width=319, height=199)
-        canvas.grid(row=0, sticky=E)
+        canvas.grid(row=0, sticky=N+E+S+W)
         canvas.create_oval(x0, y0, x1, y1)
         time.sleep(0.2)
 
@@ -89,7 +89,10 @@ def main():
     deliver.grid(sticky=N + S + E + W, row=1)
 
     temp_canvas = canvas_place_holder(main)
-    temp_canvas.grid(sticky=N + S + E + W, row=2)
+    temp_canvas.grid(sticky=N + S + E + W, row=3)
+
+    speak = speak_button(main, mqtt_sender)
+    speak.grid(sticky=N+S+E+W, row=2)
     # ------------------------------------------------------------------------
     # The event loop:
     # -------------------------------------------------------------------------
@@ -185,14 +188,33 @@ def canvas_place_holder(root):
     :return: tkinter.Frame
     """
     frame2 = Frame(root, borderwidth=5, relief='groove')
-    frame2.grid(row=2, column=0)
+    frame2.grid(row=3, column=0)
     canvas = Canvas(frame2, width=319, height=199)
     canvas.grid(row=0, sticky=E)
     Label(frame2, text="No data received from robot!! \n Connect to display Camera data", font=('arial', 20)).grid(
         row=2, column=0)
     return frame2
 
+def speak_button(root, mqtt_sender):
+    """
 
+    :param root: tkinter.Frame()
+    :param mqtt_sender: MQTT() object
+    :return:  tkinter.Frame()
+    """
+    frame = Frame(root, borderwidth=5, relief="groove")
+    frame.grid(row=2, column=0)
+
+    title = Label(frame, text = "Make robot say 'IN!' or 'OUT!' as in a game of tennis", font=("Arial", 16))
+    title.grid(row=0, column=0)
+
+    v = IntVar()
+    Radiobutton(frame, text = "IN",overrelief="sunken", font=("arial", 12), variable = v, value=1).grid(row=1, column=0, sticky=E)
+    Radiobutton(frame, text = "OUT",overrelief="sunken", font=('arial', 12), variable = v, value=2).grid(row=1, column=0, sticky=W)
+
+    send_button = Button(frame, text = "Speak", font=('arial', 12), borderwidth=5 , command = lambda: handle_send_speak(mqtt_sender, int(v.get())))
+    send_button.grid(row=2,column=0, sticky=W)
+    return frame
 ########################################################
 # HANLDERS
 ########################################################
@@ -219,6 +241,15 @@ def handle_deliver_return(mqtt_sender, speed):
     print('handling deliver and return', speed)
     mqtt_sender.send_message("m2_deliver_ball", [speed])
 
+def handle_send_speak(mqtt_sender, value):
+    """
+
+    :param mqtt_sender:
+    :param value:
+    :return:
+    """
+    print("sending speak data: ", value)
+    mqtt_sender.send_message("m2_speak", [value])
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

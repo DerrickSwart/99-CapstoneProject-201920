@@ -9,8 +9,9 @@
 import time
 import m1_extra as m1
 import m3_extra as m3
+import m2_extras as m2
 
-class Handler(object):
+class Handler(m2.m2_handler):
     def __init__(self, robot, m1_robot_mqtt = None):
         '''
 
@@ -19,6 +20,8 @@ class Handler(object):
         self.robot = robot
         self.is_time_to_stop = False
         self.m1_robot_mqtt = m1_robot_mqtt
+        m2.m2_handler.__init__(self, self.robot)
+
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed),

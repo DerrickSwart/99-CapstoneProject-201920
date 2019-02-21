@@ -29,7 +29,7 @@ def main():
         time.sleep(0.04)
         if delegate.is_time_to_stop:
             break
-
+        robot.sensor_system.camera.set_signature('SIG4')
         #print(robot.sensor_system.camera.get_biggest_blob())
         mqtt_receiver.send_message("display_camera", [robot.sensor_system.camera.get_biggest_blob().center.x,
                                     robot.sensor_system.camera.get_biggest_blob().center.y
